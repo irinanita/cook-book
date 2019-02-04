@@ -13,6 +13,17 @@ mongo=PyMongo(app)
 def index():
     return render_template('index.html')
 
+@app.route('/add_recipe')
+def add_recipe():
+    allergens_list=mongo.db.allergens.find()
+    diet_list=mongo.db.diet.find()
+    cuisine_list=mongo.db.cuisine.find()
+    _units=mongo.db.units.find()
+    units_list=[unit for unit in _units]
+    return render_template('add_recipe.html',_allergens=allergens_list,
+    _diet=diet_list,_cuisine=cuisine_list,units=units_list)
+
+
 
 if __name__=="__main__":
     app.run(host=os.environ.get('IP'),port=int(os.environ.get('PORT')),
