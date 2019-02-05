@@ -1,27 +1,29 @@
 {% extends 'base.html'%} {% block content %}
 <h2>Add Recipe</h2>
-<form menthod="POST">
+<form action="{{url_for('insert_recipe')}}" method="POST">
     <!--Title/DIET/CUISINE SECTION-->
     <div class="row">
         <div class="col">
             <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" placeholder="Recipe Name">
+            <input type="text" class="form-control" name="title" id="title" placeholder="Recipe Name">
         </div>
         <div class="col">
             <label for="diet">Diet</label>
-            <select class="form-control" id="diet">
-          {% for diet in _diet %}
-          <option>{{diet.diet_name}}</option>
-          {% endfor %}
-        </select>
+            <select class="form-control" name="diet" id="diet">
+                <option value="" disabled selected>Choose Diet</option>            
+                {% for diet in _diet %}
+                <option>{{diet.diet_name}}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="col">
             <label for="cuisine">Cuisine</label>
-            <select class="form-control" id="cuisine">
-            {%for cuisine in _cuisine %}
-            <option>{{cuisine.cuisine_name}}</option>
-            {% endfor %}
-        </select>
+            <select class="form-control" name="cuisine" id="cuisine">
+                <option value="" disabled selected>Choose Cuisine</option>
+                {%for cuisine in _cuisine %}
+                <option>{{cuisine.cuisine_name}}</option>
+                {% endfor %}
+            </select>
         </div>
     </div>
     <!--ALLERGENS SECTION-->
@@ -29,17 +31,17 @@
         <h4 class="mt-2">Allergens<span class="text-muted">(check all that apply)</span></h4>
         {% for allergen in _allergens %}
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="allergen" value="{{allergen.allergen_type}}">
-            <label class="form-check-label" for="inlineCheckbox1">{{allergen.allergen_type}}</label>
+            <input class="form-check-input" type="checkbox" id="allergens" name="allergens" value="{{allergen.allergen_type}}">
+            <label class="form-check-label" for="allergens">{{allergen.allergen_type}}</label>
         </div>
         {% endfor %}
     </div>
     <!--SHORT DESCRIPTION-->
     <div class="form-group">
         <label for="description">Description</label>
-        <textarea class="form-control" id="description" placeholder="Add a short description(max 50 characters)" maxlength=50 rows="2"></textarea>
+        <textarea class="form-control" id="description" title="description" placeholder="Add a short description(max 50 characters)" maxlength=50 rows="2"></textarea>
     </div>
-    <!--INGREDIENTS SECTION-->
+    INGREDIENTS SECTION
     {% for i in range(2) %}
     <div class="row">
         <div class="col">
@@ -48,11 +50,11 @@
         </div>
         <div class="col">
             <label for="ingredient-quantity">Quantity</label>
-            <input type="text" class="form-control" id="ingredient-quantity-{{i}}" placeholder="Qty">
+            <input type="text" class="form-control" name="ingredient-qty[]"  placeholder="Qty">
         </div>
         <div class="col">
             <label for="ingredient-unit">Units</label>
-            <select class="form-control" id="diet">
+            <select class="form-control" title="ingredient-unit" name="ingredient-units[]" >
                 {% for unit in units %}
                 <option>{{unit.unit_name}}</option>
                 {% endfor %}
@@ -64,10 +66,11 @@
     {% for i in range(3)%}
         <div class="form-group">
             <label for="step">Step {{i+1}}</label>
-            <textarea class="form-control" id="step-{{i}}" name="step[]" rows="1"></textarea>
+            <textarea class="form-control" name="steps" rows="1"></textarea>
         </div>
     {%endfor%}
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary" name="action">Submit</button>
 </form>
+{{recipes_dict}}
 
 {% endblock %}
