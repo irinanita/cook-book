@@ -21,12 +21,15 @@ def add_recipe():
     cuisine_list=mongo.db.cuisine.find()
     _units=mongo.db.units.find()
     units_list=[unit for unit in _units]
+    steps = 2
     return render_template('add_recipe.html',_allergens=allergens_list,
-    _diet=diet_list,_cuisine=cuisine_list,units=units_list)
+    _diet=diet_list,_cuisine=cuisine_list,units=units_list,steps=steps)
 
 @app.route('/insert_recipe', methods =["POST","GET"])
 def insert_recipe():
-    recipes=mongo.db.recipes
+    
+    steps = len(request.form.getlist("steps"))
+    
     recipes_dict=request.form.to_dict()
     headers = ('name', 'qty','units')
     values = (
@@ -49,9 +52,18 @@ def insert_recipe():
     recipes_dict["ingredients"]=items
     recipes_dict["allergens"]=form_allergens
     recipes_dict["steps"]=form_steps
-    recipes.insert_one(recipes_dict)
-    return render_template('add_recipe.html')    
+    
+    if request.form.get('submit') == 'submit':
+        recipes=mongo.db.recipes
+        
 
+        recipes.insert_one(recipes_dict)
+    elif request.form.get('submit') == 'add_step':
+        # add step
+        steps += 1
+    
+    return render_template('add_recipe.html', steps=steps, recipes_dict=recipes_dict)    
+    
 
 if __name__=="__main__":
     app.run(host=os.environ.get('IP'),port=int(os.environ.get('PORT')),

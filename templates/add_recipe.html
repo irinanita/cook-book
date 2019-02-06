@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col">
             <label for="title">Title</label>
-            <input type="text" class="form-control" name="title" id="title" placeholder="Recipe Name">
+            <input type="text" class="form-control" value="{{recipes_dict.title}}" name="title" id="title" placeholder="Recipe Name" required>
         </div>
         <div class="col">
             <label for="diet">Diet</label>
@@ -31,7 +31,7 @@
         <h4 class="mt-2">Allergens<span class="text-muted">(check all that apply)</span></h4>
         {% for allergen in _allergens %}
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="allergens" name="allergens" value="{{allergen.allergen_type}}">
+            <input class="form-check-input" type="checkbox" id="allergens" name="allergens" value="{{allergen.allergen_type}}" required>
             <label class="form-check-label" for="allergens">{{allergen.allergen_type}}</label>
         </div>
         {% endfor %}
@@ -46,15 +46,15 @@
     <div class="row">
         <div class="col">
             <label for="ingredient-name">Ingredient</label>
-            <input type="text" class="form-control" id="ingredient-name-{{i}}" name="ingredient-name[]" placeholder="Ingredient Name">
+            <input type="text" class="form-control" id="ingredient-name-{{i}}" name="ingredient-name[]" placeholder="Ingredient Name" required>
         </div>
         <div class="col">
             <label for="ingredient-quantity">Quantity</label>
-            <input type="text" class="form-control" name="ingredient-qty[]"  placeholder="Qty">
+            <input type="text" class="form-control" name="ingredient-qty[]"  placeholder="Qty" required>
         </div>
         <div class="col">
             <label for="ingredient-unit">Units</label>
-            <select class="form-control" title="ingredient-unit" name="ingredient-units[]" >
+            <select class="form-control" title="ingredient-unit" name="ingredient-units[]" required>
                 {% for unit in units %}
                 <option>{{unit.unit_name}}</option>
                 {% endfor %}
@@ -63,13 +63,14 @@
     </div>
     {% endfor %} 
     <h4 class="mt-2">Steps</h4>
-    {% for i in range(3)%}
+    {% for i in range(steps)%}
         <div class="form-group">
             <label for="step">Step {{i+1}}</label>
-            <textarea class="form-control" name="steps" rows="1"></textarea>
+            <textarea class="form-control" name="steps" rows="1" required></textarea>
         </div>
     {%endfor%}
-    <button type="submit" class="btn btn-primary" name="action">Submit</button>
+    <button type="submit" class="btn btn-primary" name="submit" value="add_step">Add step</button>
+    <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
 </form>
 {{recipes_dict}}
 
