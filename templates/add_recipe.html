@@ -31,7 +31,7 @@
         <h4 class="mt-2">Allergens<span class="text-muted">(check all that apply)</span></h4>
         {% for allergen in _allergens %}
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" name="allergens" {{'checked="checked"' if (('allergens' in recipes_dict)) and (recipes_dict['allergens']== allergen.allergen_type )}}>
+            <input class="form-check-input" type="checkbox" name="allergens[]" value="{{allergen.allergen_type}}" {{'checked' if allergen.allergen_type in recipes_dict['allergens']}}>
             <label class="form-check-label" for="allergens">{{allergen.allergen_type}}</label>
         </div>
         {% endfor %}
@@ -57,7 +57,7 @@
             <label for="ingredient-unit">Units</label>
             <select class="form-control" title="ingredient-unit" name="ingredient-units[]" required>
                 {% for unit in units %}
-                    <option {{'selected="selected"' if (('ingredients' in recipes_dict)) and (recipes_dict['ingredients'][i]) and (recipes_dict['ingredients'][i]['units'] == unit.unit_name)}}>{{unit.unit_name}}</option>
+                    <option {{'selected' if (('ingredients' in recipes_dict)) and (recipes_dict['ingredients'][i]) and (recipes_dict['ingredients'][i]['units'] == unit.unit_name)}}>{{unit.unit_name}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -65,6 +65,7 @@
     {% endfor %}
     
     <button type="submit" class="btn btn-primary" name="submit" value="add_ingredient">Add Ingredient</button> 
+    <button type="submit" class="btn btn-primary" name="submit" value="delete_ingredient">Delete Ingredient</button>
     
     <h4 class="mt-2">Steps</h4>
     {% for i in range(steps)%}
@@ -73,8 +74,13 @@
             <textarea class="form-control" name="steps" rows="1" required>{{recipes_dict['steps'][i] if (('steps' in recipes_dict) and (recipes_dict['steps'][i]))}}</textarea>
         </div>
     {%endfor%}
-    <button type="submit" class="btn btn-primary" name="submit" value="add_step">Add step</button>
+    <div class="form-group">
+    <button type="submit" class="btn btn-primary" name="submit" value="add_step">Add Step</button>
+    <button type="submit" class="btn btn-primary" name="submit" value="delete_step">Delete Step</button>
+    </div>
+    <div class="form-group">
     <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
+    </div>
 </form>
 {{recipes_dict}}
 

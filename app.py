@@ -49,10 +49,6 @@ def insert_recipe():
    
     ingredientsList = request.form.getlist("ingredient-name[]")
     ingredients = len(ingredientsList)
-    print('ingredients length',ingredients)
-    print('ingredients getlist', ingredientsList)
-    print('steps',request.form.getlist("steps"))
-    print('steps length',steps)
     
     recipes_dict=request.form.to_dict()
     headers = ('name', 'qty','units')
@@ -66,16 +62,22 @@ def insert_recipe():
         for _x,_i in enumerate(i):
             items[_x][headers[x]] = _i
     
-    form_allergens = request.form.getlist("allergens")
+    
+    form_allergens = request.form.getlist("allergens[]")
+    
+    print('form_allergens',form_allergens)
+    
     form_steps = request.form.getlist("steps")
     form_diet = request.form['diet']
     del recipes_dict["ingredient-name[]"]
     del recipes_dict["ingredient-qty[]"]
     del recipes_dict["ingredient-units[]"]
     del recipes_dict["steps"]
+    if form_allergens:
+        del recipes_dict["allergens[]"]
     recipes_dict["ingredients"]=items
-    recipes_dict["allergens"]=form_allergens
     recipes_dict["steps"]=form_steps
+    recipes_dict["allergens"]=form_allergens
     
     if request.form.get('submit') == 'submit':
         recipes=mongo.db.recipes
@@ -86,9 +88,14 @@ def insert_recipe():
         steps += 1
     elif request.form.get('submit') == 'add_ingredient': 
         ingredients += 1
-    print(form_allergens)
+    elif request.form.get('submit') == 'delete_step':
+        steps -= 1 
+    elif request.form.get('submit') == 'delete_ingredient':  
+        ingredients -= 1
+ 
     return render_template('add_recipe.html', steps=steps, form_steps=form_steps, recipes_dict=recipes_dict,
-    ingredients=ingredients,selected_diet=form_diet,units=units_list,_cuisine=cuisine_list, _diet=diet_list,_allergens=allergens_list,form_allergens=form_allergens )    
+    ingredients=ingredients,selected_diet=form_diet,units=units_list,_cuisine=cuisine_list, _diet=diet_list,
+    _allergens=allergens_list,form_allergens=form_allergens )    
     
 
 if __name__=="__main__":
