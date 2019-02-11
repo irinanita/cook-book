@@ -12,7 +12,7 @@
             <select class="form-control" name="diet" id="diet">
                 <option value="" disabled selected>Choose Diet</option>            
                 {% for diet in _diet %}
-                <option>{{diet.diet_name}}</option>
+                <option {{'selected="selected"' if (('diet' in recipes_dict)) and (recipes_dict['diet']== diet.diet_name )}}>{{diet.diet_name}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -21,7 +21,7 @@
             <select class="form-control" name="cuisine" id="cuisine">
                 <option value="" disabled selected>Choose Cuisine</option>
                 {%for cuisine in _cuisine %}
-                <option>{{cuisine.cuisine_name}}</option>
+                <option {{'selected="selected"' if (('cuisine' in recipes_dict)) and (recipes_dict['cuisine']== cuisine.cuisine_name )}}>{{cuisine.cuisine_name}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -31,7 +31,7 @@
         <h4 class="mt-2">Allergens<span class="text-muted">(check all that apply)</span></h4>
         {% for allergen in _allergens %}
         <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="allergens" name="allergens" value="{{allergen.allergen_type}}" required>
+            <input class="form-check-input" type="checkbox" name="allergens" {{'checked="checked"' if (('allergens' in recipes_dict)) and (recipes_dict['allergens']== allergen.allergen_type )}}>
             <label class="form-check-label" for="allergens">{{allergen.allergen_type}}</label>
         </div>
         {% endfor %}
@@ -39,39 +39,45 @@
     <!--SHORT DESCRIPTION-->
     <div class="form-group">
         <label for="description">Description</label>
-        <textarea class="form-control" id="description" title="description" placeholder="Add a short description(max 50 characters)" maxlength=50 rows="2"></textarea>
+        <textarea class="form-control" id="description" value="{{recipes_dict.description}}" title="description"  placeholder="Add a short description(max 50 characters)" maxlength=50 rows="2"></textarea>
     </div>
-    INGREDIENTS SECTION
-    {% for i in range(2) %}
-    <div class="row">
+    <!--INGREDIENTS SECTION-->
+    {{ingredients}}
+    {% for i in range(ingredients) %}
+    <div class="row form-group">
         <div class="col">
             <label for="ingredient-name">Ingredient</label>
-            <input type="text" class="form-control" id="ingredient-name-{{i}}" name="ingredient-name[]" placeholder="Ingredient Name" required>
+            <input type="text" class="form-control" value="{{recipes_dict['ingredients'][i]['name'] if (('ingredients' in recipes_dict)) and (recipes_dict['ingredients'][i])}}" id="ingredient-name-{{i}}" name="ingredient-name[]"  placeholder="Ingredient Name" required>
         </div>
         <div class="col">
             <label for="ingredient-quantity">Quantity</label>
-            <input type="text" class="form-control" name="ingredient-qty[]"  placeholder="Qty" required>
+            <input type="number" class="form-control" value="{{recipes_dict['ingredients'][i]['qty'] if (('ingredients' in recipes_dict)) and (recipes_dict['ingredients'][i])}}" name="ingredient-qty[]"  placeholder="Qty" required>
         </div>
         <div class="col">
             <label for="ingredient-unit">Units</label>
             <select class="form-control" title="ingredient-unit" name="ingredient-units[]" required>
                 {% for unit in units %}
-                <option>{{unit.unit_name}}</option>
+                    <option {{'selected="selected"' if (('ingredients' in recipes_dict)) and (recipes_dict['ingredients'][i]) and (recipes_dict['ingredients'][i]['units'] == unit.unit_name)}}>{{unit.unit_name}}</option>
                 {% endfor %}
             </select>
         </div>
     </div>
-    {% endfor %} 
+    {% endfor %}
+    
+    <button type="submit" class="btn btn-primary" name="submit" value="add_ingredient">Add Ingredient</button> 
+    
     <h4 class="mt-2">Steps</h4>
     {% for i in range(steps)%}
         <div class="form-group">
             <label for="step">Step {{i+1}}</label>
-            <textarea class="form-control" name="steps" rows="1" required></textarea>
+            <textarea class="form-control" name="steps" rows="1" required>{{recipes_dict['steps'][i] if (('steps' in recipes_dict) and (recipes_dict['steps'][i]))}}</textarea>
         </div>
     {%endfor%}
     <button type="submit" class="btn btn-primary" name="submit" value="add_step">Add step</button>
     <button type="submit" class="btn btn-primary" name="submit" value="submit">Submit</button>
 </form>
 {{recipes_dict}}
+
+
 
 {% endblock %}

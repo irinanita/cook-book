@@ -17,18 +17,42 @@ def index():
 @app.route('/add_recipe')
 def add_recipe():
     allergens_list=mongo.db.allergens.find()
-    diet_list=mongo.db.diet.find()
-    cuisine_list=mongo.db.cuisine.find()
+    _diet_list=mongo.db.diet.find()
+    diet_list=[diet for diet in _diet_list]
+    _cuisine_list=mongo.db.cuisine.find()
+    cuisine_list=[cuisine for cuisine in _cuisine_list ]
     _units=mongo.db.units.find()
     units_list=[unit for unit in _units]
     steps = 2
+    ingredients=2
+    recipes_dict={}
+    form_steps=[]
     return render_template('add_recipe.html',_allergens=allergens_list,
-    _diet=diet_list,_cuisine=cuisine_list,units=units_list,steps=steps)
+    _diet=diet_list,_cuisine=cuisine_list,units=units_list,steps=steps,recipes_dict=recipes_dict,ingredients=ingredients)
 
 @app.route('/insert_recipe', methods =["POST","GET"])
 def insert_recipe():
+    _units=mongo.db.units.find()
+    units_list=[unit for unit in _units]
+    
+    _cuisine_list=mongo.db.cuisine.find()
+    cuisine_list=[cuisine for cuisine in _cuisine_list ]
+    
+    _diet_list=mongo.db.diet.find()
+    diet_list=[diet for diet in _diet_list]
+    
+    _allergens_list=mongo.db.allergens.find()
+    allergens_list=[allergen for allergen in _allergens_list]
     
     steps = len(request.form.getlist("steps"))
+    print('steps',steps)
+   
+    ingredientsList = request.form.getlist("ingredient-name[]")
+    ingredients = len(ingredientsList)
+    print('ingredients length',ingredients)
+    print('ingredients getlist', ingredientsList)
+    print('steps',request.form.getlist("steps"))
+    print('steps length',steps)
     
     recipes_dict=request.form.to_dict()
     headers = ('name', 'qty','units')
@@ -44,7 +68,7 @@ def insert_recipe():
     
     form_allergens = request.form.getlist("allergens")
     form_steps = request.form.getlist("steps")
-    print(form_steps)
+    form_diet = request.form['diet']
     del recipes_dict["ingredient-name[]"]
     del recipes_dict["ingredient-qty[]"]
     del recipes_dict["ingredient-units[]"]
@@ -55,14 +79,16 @@ def insert_recipe():
     
     if request.form.get('submit') == 'submit':
         recipes=mongo.db.recipes
-        
-
         recipes.insert_one(recipes_dict)
+        
     elif request.form.get('submit') == 'add_step':
         # add step
         steps += 1
-    
-    return render_template('add_recipe.html', steps=steps, recipes_dict=recipes_dict)    
+    elif request.form.get('submit') == 'add_ingredient': 
+        ingredients += 1
+    print(form_allergens)
+    return render_template('add_recipe.html', steps=steps, form_steps=form_steps, recipes_dict=recipes_dict,
+    ingredients=ingredients,selected_diet=form_diet,units=units_list,_cuisine=cuisine_list, _diet=diet_list,_allergens=allergens_list,form_allergens=form_allergens )    
     
 
 if __name__=="__main__":
