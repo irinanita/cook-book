@@ -2,6 +2,7 @@ import os
 from flask import Flask,render_template,redirect,request,url_for
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
+import datetime
 
 app=Flask(__name__)
 app.config["MONGO_DBNAME"]="cook_book"
@@ -12,7 +13,8 @@ mongo=PyMongo(app)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    recipes=mongo.db.recipes.find()
+    return render_template('index.html',recipes=recipes)
 
 @app.route('/add_recipe')
 def add_recipe():
@@ -26,9 +28,9 @@ def add_recipe():
     steps = 2
     ingredients=2
     recipes_dict={}
-    form_steps=[]
     return render_template('add_recipe.html',_allergens=allergens_list,
-    _diet=diet_list,_cuisine=cuisine_list,units=units_list,steps=steps,recipes_dict=recipes_dict,ingredients=ingredients)
+    _diet=diet_list,_cuisine=cuisine_list,units=units_list,steps=steps,
+    recipes_dict=recipes_dict,ingredients=ingredients)
 
 @app.route('/insert_recipe', methods =["POST","GET"])
 def insert_recipe():
@@ -78,9 +80,12 @@ def insert_recipe():
     recipes_dict["ingredients"]=items
     recipes_dict["steps"]=form_steps
     recipes_dict["allergens"]=form_allergens
+    ts=datetime.datetime.utcnow()
+    recipes_dict["date"]= ts
     
     if request.form.get('submit') == 'submit':
         recipes=mongo.db.recipes
+         #{"last_modified": datetime.datetime.utcnow()})
         recipes.insert_one(recipes_dict)
         
     elif request.form.get('submit') == 'add_step':

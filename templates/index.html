@@ -1,7 +1,32 @@
-{% extends 'base.html'%}
-
-{% block content %}
+{% extends 'base.html'%} {% block content %}
 <h2>This is my home page</h2>
-{{recipes}}
-{{form}}
+<div class="row">
+    <div class="col-sm-12 col-md-8">
+        <img class="img-fluid" alt="Tasty Food" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"></img>
+    </div>
+    <div class="col-sm-12 col-md-4">
+        <h3>Welcome</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam error ea culpa, iure accusantium neque magni animi sint, corporis, eveniet, quidem laudantium odit possimus. Laudantium.</p>
+    </div>
+</div>
+<h3>Latest Recipes</h3>
+<div class="row">
+    {% for recipe in recipes[:4]%}
+    <div class="col-md-6 col-lg-3">
+        <div class="img-container">
+            <img class="img-fluid" src="{{recipe['image']}}" alt="Recipes Image"></img>
+        </div>
+        <h5>{{recipe['title']}}</h5>
+   
+    <!--<div class="card">-->
+    <!--    <img src="{{recipe['image']}}" class="card-img-top" alt="Recipe Image">-->
+    <!--    <div class="card-body">-->
+    <!--        <p class="card-text">{{recipe['title']}}</p>-->
+    <!--    </div>-->
+    <!--</div>-->
+ </div>
+
+
+    {%endfor%}
+</div>
 {% endblock %}

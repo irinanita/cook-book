@@ -1,3 +1,10 @@
-/*body{*/
-/*    background-color:red;*/
-/*}*/
+.img-container{
+    overflow: hidden;
+}
+
+.row{
+    align-items:space-between;
+  justify-content:space-between;
+  flex-wrap:wrap;
+    
+}
