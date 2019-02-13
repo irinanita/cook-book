@@ -1,0 +1,39 @@
+{% extends 'base.html' %} {%block content%}
+<h2 class="text-center">{{recipe.title}}</h2>
+<div class="row">
+    <div class="col-lg-4">
+        <h3>Ingredients</h3>
+        {% for i in range(recipe.ingredients|count) %}
+            <ul class="list-group">
+                <li class="list-group-item">{{recipe.ingredients[i].name}} {{recipe.ingredients[i].qty}} {{recipe.ingredients[i].units}} </li>
+            </ul>
+        {%endfor%}
+    </div>
+    <div class="col-lg-8">
+        <img class="img-fluid" alt="Tasty Food" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"></img>
+    </div>
+</div>
+    <h3>Description</h3>
+    
+<div class="row">
+        <section class="mx-auto">
+        <span class="font-weight-bold mr-1">Cuisine:</span> <span class="mr-4">{{recipe.cuisine}}</span> <span class="font-weight-bold mr-1">Diet:</span><span class="mr-4">{{recipe.diet }}</span>
+        <span class="font-weight-bold">Allergens:</span>
+        {% for i in range(recipe.allergens|count) %}
+        <ul class="allergen-list">
+            <li>{{recipe.allergens[i]}}</li>
+        </ul>
+    {%endfor%}
+    </section>
+</div>
+{% if recipe.description %}
+<div class="row">
+    <p>{{recipe.description}}</p>
+</div>
+{%endif%}
+<div class="row">
+   
+</div>
+{{recipe}}
+{%endblock%}
+

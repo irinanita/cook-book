@@ -2,9 +2,12 @@
     overflow: hidden;
 }
 
-.row{
-    align-items:space-between;
-  justify-content:space-between;
-  flex-wrap:wrap;
-    
+.allergen-list{
+    display: inline-block;
+    list-style:none;
+    padding:0;
+}
+
+.list-group-item{
+    border-color:transparent;
 }

@@ -3,6 +3,7 @@ from flask import Flask,render_template,redirect,request,url_for
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 import datetime
+from bson.objectid import ObjectId
 
 app=Flask(__name__)
 app.config["MONGO_DBNAME"]="cook_book"
@@ -13,8 +14,15 @@ mongo=PyMongo(app)
 
 @app.route('/')
 def index():
-    recipes=mongo.db.recipes.find()
+    recipes=mongo.db.recipes.find().sort([['_id', -1]]).limit(4) #return the latest 4 recipes
     return render_template('index.html',recipes=recipes)
+
+@app.route('/view_recipe/<recipe_id>')
+def view_recipe(recipe_id):
+    the_recipe=mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})
+    print(the_recipe)
+
+    return render_template('view_recipe.html',recipe=the_recipe)
 
 @app.route('/add_recipe')
 def add_recipe():
@@ -47,8 +55,7 @@ def insert_recipe():
     allergens_list=[allergen for allergen in _allergens_list]
     
     steps = len(request.form.getlist("steps"))
-    print('steps',steps)
-   
+  
     ingredientsList = request.form.getlist("ingredient-name[]")
     ingredients = len(ingredientsList)
     
@@ -66,15 +73,14 @@ def insert_recipe():
     
     
     form_allergens = request.form.getlist("allergens[]")
-    
-    print('form_allergens',form_allergens)
-    
     form_steps = request.form.getlist("steps")
     form_diet = request.form['diet']
+    
     del recipes_dict["ingredient-name[]"]
     del recipes_dict["ingredient-qty[]"]
     del recipes_dict["ingredient-units[]"]
     del recipes_dict["steps"]
+    
     if form_allergens:
         del recipes_dict["allergens[]"]
     recipes_dict["ingredients"]=items
@@ -85,7 +91,6 @@ def insert_recipe():
     
     if request.form.get('submit') == 'submit':
         recipes=mongo.db.recipes
-         #{"last_modified": datetime.datetime.utcnow()})
         recipes.insert_one(recipes_dict)
         
     elif request.form.get('submit') == 'add_step':
