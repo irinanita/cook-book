@@ -13,27 +13,29 @@
         <img class="img-fluid" alt="Tasty Food" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"></img>
     </div>
 </div>
-    <h3>Description</h3>
-    
+    <h3 class="text-center">Description</h3>
 <div class="row">
         <section class="mx-auto">
         <span class="font-weight-bold mr-1">Cuisine:</span> <span class="mr-4">{{recipe.cuisine}}</span> <span class="font-weight-bold mr-1">Diet:</span><span class="mr-4">{{recipe.diet }}</span>
         <span class="font-weight-bold">Allergens:</span>
         {% for i in range(recipe.allergens|count) %}
         <ul class="allergen-list">
-            <li>{{recipe.allergens[i]}}</li>
+            <li class="mr-2">{{recipe.allergens[i]}}</li>
         </ul>
     {%endfor%}
     </section>
 </div>
 {% if recipe.description %}
-<div class="row">
-    <p>{{recipe.description}}</p>
-</div>
+    <p class="text-center text-black-50">" {{recipe.description}} "</p>
 {%endif%}
+<h3 class="text-center">Steps</h3>
 <div class="row">
-   
+   <ul class="list-group">
+       {%for step in recipe.steps%}
+       <li class="list-group-item">{{step}}</li>
+       {%endfor%}
+   </ul>
 </div>
-{{recipe}}
+
 {%endblock%}
 
