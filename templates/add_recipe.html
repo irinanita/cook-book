@@ -28,7 +28,7 @@
     </div>
     <!--ALLERGENS SECTION-->
     <div class="form-group">
-        <h4 class="mt-2">Allergens<span class="text-muted">(check all that apply)</span></h4>
+        <h4 class="mt-2">Allergens <span class="text-muted"><small>(check all that apply)</small></span></h4>
         {% for allergen in _allergens %}
         <div class="form-check form-check-inline">
             <input class="form-check-input" type="checkbox" name="allergens[]" value="{{allergen.allergen_type}}" {{'checked' if allergen.allergen_type in recipes_dict['allergens']}}>
@@ -81,8 +81,8 @@
     </div>
     <div class="row form-group">
         <div class="col">
-            <label for="image">Image<span class="text-muted">(insert a valid link)</span></label>
-            <input type="url" class="form-control" value="{% if ('image' in recipes_dict) %} {{recipes_dict['image']}} {%else%} https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg {%endif%}" name="image" >
+            <label for="image">Image <span class="text-muted"><small>(insert a valid link)</small></span></label>
+            <input type="url" class="form-control" value="{% if ('image' in recipes_dict) %} {{recipes_dict['image']}} {%endif%}" name="image" >
         </div>
     </div>    
     <div class="form-group">

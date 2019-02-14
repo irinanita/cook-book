@@ -8,9 +8,11 @@
     <title>Cook Book</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}" type="text/css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
 
 <body>
+    <!--NAVIGATION--->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="#">Social Links</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -22,7 +24,7 @@
                     <a class="nav-link" href="{{url_for('index')}}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Recipes</a>
+                    <a class="nav-link" href="{{url_for('recipes')}}">Recipes</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">Statistics</a>
@@ -38,11 +40,12 @@
         </div>
     </nav>
     <h1>Cook Book</h1>
-    <div class="container">
+    <div class="container container--flex">
         {% block content %} {% endblock %}
     </div>
-    <div class="container-fluid fixed-bottom">
-        <h4> Cook Book - Milestone Project</h4>
+        <footer class="footer text-center">
+            <h4> Cook Book - Milestone Project</h4>
+        </footer>
     </div>
     <!--Bootstrap JQuery and JS --->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

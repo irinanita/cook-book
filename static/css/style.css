@@ -1,11 +1,21 @@
-.img-container{
-    overflow: hidden;
+html,body{
+    height:100%;
 }
 
-.allergen-list{
-    display: inline-block;
-    list-style:none;
-    padding:0;
+body{
+    display: flex;
+    flex-direction:column;
+}
+
+.container--flex{
+    flex:1 0 auto;
+}
+
+.footer{
+    flex-shrink:0;
+}
+.img-container{
+    overflow: hidden;
 }
 
 .list-group-item{

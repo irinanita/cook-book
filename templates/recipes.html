@@ -1,0 +1,44 @@
+{%extends 'base.html'%}{%block content%}
+<h2 class="text-center">Recipes</h2>
+<div class="row">
+    <form action="{{url_for('insert_recipe')}}" method="POST">
+        <div class="row form-group">
+            <div class="col">
+                <select class="form-control" name="browse">
+                    <optgroup label="Diet">
+                        <option value="" disabled selected>Browse</option>                 
+                            {% for diet in _diet %}
+                            <option {{'selected="selected"' if (('diet' in recipes_dict)) and (recipes_dict['diet']== diet.diet_name )}}>{{diet.diet_name}}</option>
+                            {% endfor %}
+                        </optgroup>
+                    <optgroup label="Cuisine">
+                        {%for cuisine in _cuisine %}
+                        <option {{'selected="selected"' if (('cuisine' in recipes_dict)) and (recipes_dict['cuisine']== cuisine.cuisine_name )}}>{{cuisine.cuisine_name}}</option>
+                        {% endfor %}
+                    </optgroup>
+                </select>
+            </div>
+            <div class="col">
+                <select class="form-control" name="sort">
+                    <option value="" disabled selected>Sort By</option>                 
+                    <option>Latest Entry First</option>
+                    <option>Oldest Entry First</option>
+                    <option>Most viewed on top</option>
+                </select>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row">
+    {% for recipe in recipes %}
+    <div class="col-md-6 col-lg-3">
+        <a class="text-reset" href="{{url_for('view_recipe',recipe_id=recipe._id)}}">
+            <div class="img-container" style="background-image: url({{recipe['image']}}); background-size: cover; padding-top: 60%;"> </div>
+            <h5>{{recipe['title']}}</h5>
+            {{recipe._id.generation_time}}
+        </a>
+    </div>
+    {%endfor%}
+</div>
+
+{%endblock%}

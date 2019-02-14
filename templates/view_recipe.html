@@ -1,41 +1,40 @@
 {% extends 'base.html' %} {%block content%}
 <h2 class="text-center">{{recipe.title}}</h2>
-<div class="row">
+<div class="row mt-5">
     <div class="col-lg-4">
-        <h3>Ingredients</h3>
+        <h3>Ingredients <span class ="float-right"><i class="fas fa-eye"></i>{{views}}</span></h3>
         {% for i in range(recipe.ingredients|count) %}
-            <ul class="list-group">
-                <li class="list-group-item">{{recipe.ingredients[i].name}} {{recipe.ingredients[i].qty}} {{recipe.ingredients[i].units}} </li>
-            </ul>
+        <ul class="list-group list-unstyled">
+            <li class="list-group-item">{{recipe.ingredients[i].name}} {{recipe.ingredients[i].qty}} {{recipe.ingredients[i].units}} </li>
+        </ul>
         {%endfor%}
     </div>
     <div class="col-lg-8">
         <img class="img-fluid" alt="Tasty Food" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"></img>
     </div>
 </div>
+<section class="mt-5">
     <h3 class="text-center">Description</h3>
-<div class="row">
-        <section class="mx-auto">
+    <div class="row">
+    <div class="mx-auto mt-3">
         <span class="font-weight-bold mr-1">Cuisine:</span> <span class="mr-4">{{recipe.cuisine}}</span> <span class="font-weight-bold mr-1">Diet:</span><span class="mr-4">{{recipe.diet }}</span>
-        <span class="font-weight-bold">Allergens:</span>
-        {% for i in range(recipe.allergens|count) %}
-        <ul class="allergen-list">
-            <li class="mr-2">{{recipe.allergens[i]}}</li>
-        </ul>
-    {%endfor%}
-    </section>
-</div>
+        <span class="font-weight-bold">Allergens:</span> {% for i in range(recipe.allergens|count) %}
+        <span class="mr-2">{{recipe.allergens[i]}}</span> {%endfor%}
+    </div>
+    </div>
+</section>
+
 {% if recipe.description %}
-    <p class="text-center text-black-50">" {{recipe.description}} "</p>
+<p class="text-center text-black-50 mt-5"><em>"{{recipe.description}}"</em></p>
 {%endif%}
-<h3 class="text-center">Steps</h3>
-<div class="row">
-   <ul class="list-group">
-       {%for step in recipe.steps%}
-       <li class="list-group-item">{{step}}</li>
-       {%endfor%}
-   </ul>
-</div>
-
+<section class="mt-5">
+    <h3 class="text-center">Steps</h3>
+    <div class="row">
+        <ul class="list-group list-unstyled">
+            {%for step in recipe.steps%}
+            <li class="list-group-item">{{step}}</li>
+            {%endfor%}
+        </ul>
+    </div>
+</section>
 {%endblock%}
-

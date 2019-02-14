@@ -20,9 +20,18 @@ def index():
 @app.route('/view_recipe/<recipe_id>')
 def view_recipe(recipe_id):
     the_recipe=mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})
-    print(the_recipe)
+    views=int(the_recipe['views'])
+    mongo.db.recipes.update_one({'_id':ObjectId(recipe_id)},{'$inc':{'views':1}})
+    return render_template('view_recipe.html',recipe=the_recipe,views=views)
 
-    return render_template('view_recipe.html',recipe=the_recipe)
+@app.route('/recipes')
+def recipes():
+    recipes=mongo.db.recipes.find().sort([['_id', -1]]) #by default most recent come first
+    _diet_list=mongo.db.diet.find()
+    diet_list=[diet for diet in _diet_list]
+    _cuisine_list=mongo.db.cuisine.find()
+    cuisine_list=[cuisine for cuisine in _cuisine_list ]
+    return render_template('recipes.html',recipes=recipes,_diet=diet_list,_cuisine=cuisine_list)
 
 @app.route('/add_recipe')
 def add_recipe():
@@ -86,11 +95,16 @@ def insert_recipe():
     recipes_dict["ingredients"]=items
     recipes_dict["steps"]=form_steps
     recipes_dict["allergens"]=form_allergens
+    recipes_dict["views"]=0
     ts=datetime.datetime.utcnow()
     recipes_dict["date"]= ts
     
     if request.form.get('submit') == 'submit':
         recipes=mongo.db.recipes
+        
+        if recipes_dict["image"]=="":
+            recipes_dict["image"]="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
+            
         recipes.insert_one(recipes_dict)
         
     elif request.form.get('submit') == 'add_step':
