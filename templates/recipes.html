@@ -1,19 +1,20 @@
 {%extends 'base.html'%}{%block content%}
 <h2 class="text-center">Recipes</h2>
-<div class="row">
-    <form action="{{url_for('insert_recipe')}}" method="POST">
+<div class="row mt-5">
+    <form action="{{url_for('recipes')}}" method="POST">
         <div class="row form-group">
             <div class="col">
                 <select class="form-control" name="browse">
+                    <option disabled selected>Browse</option>
+                    <option>All</option>
                     <optgroup label="Diet">
-                        <option value="" disabled selected>Browse</option>                 
                             {% for diet in _diet %}
-                            <option {{'selected="selected"' if (('diet' in recipes_dict)) and (recipes_dict['diet']== diet.diet_name )}}>{{diet.diet_name}}</option>
+                            <option >{{diet.diet_name}}</option>
                             {% endfor %}
                         </optgroup>
                     <optgroup label="Cuisine">
                         {%for cuisine in _cuisine %}
-                        <option {{'selected="selected"' if (('cuisine' in recipes_dict)) and (recipes_dict['cuisine']== cuisine.cuisine_name )}}>{{cuisine.cuisine_name}}</option>
+                        <option>{{cuisine.cuisine_name}}</option>
                         {% endfor %}
                     </optgroup>
                 </select>
@@ -26,10 +27,13 @@
                     <option>Most viewed on top</option>
                 </select>
             </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary" name="submit" value="submit">Apply</button>
+            </div>
         </div>
     </form>
 </div>
-<div class="row">
+<div class="row mt-3">
     {% for recipe in recipes %}
     <div class="col-md-6 col-lg-3">
         <a class="text-reset" href="{{url_for('view_recipe',recipe_id=recipe._id)}}">

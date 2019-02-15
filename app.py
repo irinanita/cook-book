@@ -24,15 +24,42 @@ def view_recipe(recipe_id):
     mongo.db.recipes.update_one({'_id':ObjectId(recipe_id)},{'$inc':{'views':1}})
     return render_template('view_recipe.html',recipe=the_recipe,views=views)
 
-@app.route('/recipes')
+@app.route('/recipes',methods =["POST","GET"])
 def recipes():
-    recipes=mongo.db.recipes.find().sort([['_id', -1]]) #by default most recent come first
+    
+    if "browse" in request.form:
+        tmpParams = [];
+        tmpParams.append({"cuisine":request.form["browse"]})
+        tmpParams.append({"diet":request.form["browse"]})
+        findParams = { '$or': tmpParams }
+        if request.form["browse"]=="All":
+            findParams={}
+    else:
+        findParams = {}
+   
+    sortField = "_id"
+    sortOrder = -1
+    
+    if "sort" in request.form:
+        if request.form['sort']=="Latest Entry First":
+            sortField = '_id'
+            sortOrder = -1
+        elif request.form['sort']=="Oldest Entry First":
+            sortField = '_id'
+            sortOrder = 1
+        elif request.form['sort']=="Most viewed on top":
+            sortField = 'views'
+            sortOrder = -1
+    
+    recipes = mongo.db.recipes.find(findParams).sort(sortField,sortOrder)
+    
     _diet_list=mongo.db.diet.find()
     diet_list=[diet for diet in _diet_list]
     _cuisine_list=mongo.db.cuisine.find()
     cuisine_list=[cuisine for cuisine in _cuisine_list ]
     return render_template('recipes.html',recipes=recipes,_diet=diet_list,_cuisine=cuisine_list)
 
+    
 @app.route('/add_recipe')
 def add_recipe():
     allergens_list=mongo.db.allergens.find()

@@ -14,6 +14,7 @@ body{
 .footer{
     flex-shrink:0;
 }
+
 .img-container{
     overflow: hidden;
 }
