@@ -14,7 +14,7 @@ mongo=PyMongo(app)
 
 @app.route('/')
 def index():
-    recipes=mongo.db.recipes.find().sort([['_id', -1]]).limit(4) #return the latest 4 recipes
+    recipes=mongo.db.recipes.find().sort('_id', -1).limit(4) #return the latest 4 recipes
     return render_template('index.html',recipes=recipes)
 
 @app.route('/view_recipe/<recipe_id>')
@@ -26,16 +26,26 @@ def view_recipe(recipe_id):
 
 @app.route('/recipes',methods =["POST","GET"])
 def recipes():
-    
+
     if "browse" in request.form:
         tmpParams = [];
         tmpParams.append({"cuisine":request.form["browse"]})
         tmpParams.append({"diet":request.form["browse"]})
-        findParams = { '$or': tmpParams }
+        
         if request.form["browse"]=="All":
             findParams={}
+        else:
+            findParams = { '$or': tmpParams }
     else:
         findParams = {}
+   
+   
+    if "keyword" in request.args:
+        keyword = request.args.get('keyword')
+        mongo.db.recipes.create_index([('$**','text')])
+        findParams['$text'] = { '$search': keyword  }
+        
+    print(findParams)
    
     sortField = "_id"
     sortOrder = -1
