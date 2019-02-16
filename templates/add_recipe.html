@@ -9,7 +9,7 @@
         </div>
         <div class="col">
             <label for="diet">Diet</label>
-            <select class="form-control" name="diet" id="diet">
+            <select class="form-control custom-select" name="diet" id="diet">
                 <option value="" disabled selected>Choose Diet</option>            
                 {% for diet in _diet %}
                 <option {{'selected="selected"' if (('diet' in recipes_dict)) and (recipes_dict['diet']== diet.diet_name )}}>{{diet.diet_name}}</option>
@@ -18,7 +18,7 @@
         </div>
         <div class="col">
             <label for="cuisine">Cuisine</label>
-            <select class="form-control" name="cuisine" id="cuisine">
+            <select class="form-control custom-select" name="cuisine" id="cuisine">
                 <option value="" disabled selected>Choose Cuisine</option>
                 {%for cuisine in _cuisine %}
                 <option {{'selected="selected"' if (('cuisine' in recipes_dict)) and (recipes_dict['cuisine']== cuisine.cuisine_name )}}>{{cuisine.cuisine_name}}</option>
@@ -56,7 +56,7 @@
         </div>
         <div class="col">
             <label for="ingredient-unit">Units</label>
-            <select class="form-control" title="ingredient-unit" name="ingredient-units[]" >
+            <select class="form-control custom-select" title="ingredient-unit" name="ingredient-units[]" >
                 {% for unit in units %}
                     <option {{'selected' if (('ingredients' in recipes_dict)) and (recipes_dict['ingredients'][i]) and (recipes_dict['ingredients'][i]['units'] == unit.unit_name)}}>{{unit.unit_name}}</option>
                 {% endfor %}

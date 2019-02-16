@@ -4,7 +4,7 @@
     <form action="{{url_for('recipes')}}" method="POST">
         <div class="row form-group">
             <div class="col">
-                <select class="form-control" name="browse">
+                <select class="custom-select" name="browse">
                     <option disabled selected>Browse</option>
                     <option>All</option>
                     <optgroup label="Diet">
@@ -20,7 +20,7 @@
                 </select>
             </div>
             <div class="col">
-                <select class="form-control" name="sort">
+                <select class="custom-select" name="sort">
                     <option value="" disabled selected>Sort By</option>                 
                     <option>Latest Entry First</option>
                     <option>Oldest Entry First</option>
