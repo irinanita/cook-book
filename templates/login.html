@@ -5,7 +5,7 @@
    <p>{{message}}</p>
 </div>
 {%endif%}
-<form action="{{url_for('login')}}" method="POST">
+<form action="{{url_for('login_2')}}" method="POST">
     <div class="form-group">
         <label for="user">Username</label>
         <input type="text" class="form-control" value="" name="user" placeholder="Username" required>
@@ -14,6 +14,7 @@
         <label for="title">Password</label>
         <input type="password" class="form-control" value="" name="password" placeholder="Password" required>
     </div>
+    <button type="submit" class="btn btn-primary" name="submit" value="submit">Login</button>
 </form>    
     <p>New User?<a class="text-reset" href="{{url_for('new_user')}}">Click to Register</a></p>
 {%endblock%}
