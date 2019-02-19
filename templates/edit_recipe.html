@@ -1,0 +1,92 @@
+{% extends 'base.html'%} {% block content %}
+<h2>Add Recipe</h2>
+<form action="{{url_for('update_recipe',recipe_id=recipe._id)}}" method="POST">
+    <!--TITLE-->
+    <div class="row">
+        <div class="col">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" value="{{recipe.title}}" name="title" id="title" placeholder="Recipe Name" required>
+        </div>
+        <!--DIET-->
+        <div class="col">
+            <label for="diet">Diet</label>
+            <select class="form-control custom-select" name="diet" id="diet">
+                {% for diet in _diet %}
+                    {% if diet.diet_name==recipe.diet %}
+                    <option value="{{diet.diet_name}}" selected>{{diet.diet_name}}</option>
+                    {% else %}
+                    <option value="{{diet.diet_name}}">{{diet.diet_name}}</option>
+                    {%endif%}
+                {% endfor %}
+            </select>
+        </div>
+        <!--CUISINE-->
+        <div class="col">
+            <label for="cuisine">Cuisine</label>
+            <select class="form-control custom-select" name="cuisine" id="cuisine">
+                {%for cuisine in _cuisine %}
+                {% if cuisine.cuisine_name==recipe.cuisine %}
+                <option selected >{{cuisine.cuisine_name}}</option>
+                {%else%}
+                <option >{{cuisine.cuisine_name}}</option>
+                {%endif%}
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <!--ALLERGENS SECTION-->
+    <div class="form-group">
+        <h4 class="mt-2">Allergens <span class="text-muted"><small>(check all that apply)</small></span></h4>
+        {% for allergen in _allergens %}
+        <div class="form-check form-check-inline">
+            {%if allergen.allergen_type in recipe['allergens']%}
+            <input class="form-check-input" type="checkbox" name="allergens[]" value="{{allergen.allergen_type}}" checked> 
+            {% else %}
+            <input class="form-check-input" type="checkbox" name="allergens[]" value="{{allergen.allergen_type}}"> 
+            {% endif %}
+            <label class="form-check-label" for="allergens">{{allergen.allergen_type}}</label>
+        </div>
+        {% endfor %}
+    </div>
+    <!--SHORT DESCRIPTION-->
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea class="form-control" name="description"  placeholder="Add a short description(max 50 characters)" maxlength=50 rows="2">{{recipe.description if ('description' in recipe)}}</textarea>
+    </div>
+    <!--INGREDIENTS SECTION-->
+    {% for i in range(ingredient_length) %}
+    <div class="row form-group">
+        <div class="col">
+            <label for="ingredient-name">Ingredient</label>
+            <input type="text" class="form-control" value="{{recipe['ingredients'][i]['name'] if (('ingredients' in recipe)) and (recipe['ingredients'][i])}}" name="ingredient-name[]"  placeholder="Ingredient Name" >
+        </div>
+        <div class="col">
+            <label for="ingredient-quantity">Quantity</label>
+            <input type="number" class="form-control" value="{{recipe['ingredients'][i]['qty'] if (('ingredients' in recipe)) and (recipe['ingredients'][i])}}" name="ingredient-qty[]"  placeholder="Qty">
+        </div>
+        <div class="col">
+            <label for="ingredient-unit">Units</label>
+            <select class="form-control custom-select" title="ingredient-unit" name="ingredient-units[]" >
+                {% for unit in units %}
+                    <option {{'selected' if (('ingredients' in recipe)) and (recipe['ingredients'][i]) and (recipe['ingredients'][i]['units'] == unit.unit_name)}}>{{unit.unit_name}}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    {%endfor%}
+    <!--STEPS-->
+    <h4 class="mt-2">Steps</h4>
+    {% for i in range(steps_length)%}
+        <div class="form-group">
+            <label for="step">Step {{i+1}}</label>
+            <textarea class="form-control" name="steps" rows="1" >{{recipe['steps'][i] if (('steps' in recipe) and (recipe['steps'][i]))}}</textarea>
+        </div>
+    {%endfor%}
+    <div class="row form-group">
+        <div class="col">
+            <label for="image">Image <span class="text-muted"><small>(insert a valid link)</small></span></label>
+            <input type="url" class="form-control" value="{{recipe.image}}" name="image" >
+        </div>
+    </div>    
+</form>
+{% endblock %}

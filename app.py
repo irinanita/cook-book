@@ -67,8 +67,9 @@ def view_recipe(recipe_id):
     if not session['logged_in']:
         return redirect(url_for('login')) 
     the_recipe=mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})
+    #Everytime a recipe is opened the number increases
     views=int(the_recipe['views'])
-    mongo.db.recipes.update_one({'_id':ObjectId(recipe_id)},{'$inc':{'views':1}})
+    mongo.db.recipes.update_one({'_id':ObjectId(recipe_id)},{'$inc':{'views':1}}) 
     return render_template('view_recipe.html',recipe=the_recipe,views=views)
 
 @app.route('/recipes',methods =["POST","GET"])
@@ -114,6 +115,49 @@ def recipes():
     cuisine_list=[cuisine for cuisine in _cuisine_list ]
     return render_template('recipes.html',recipes=recipes,_diet=diet_list,_cuisine=cuisine_list)
 
+@app.route('/my_recipes')
+def my_recipes():
+    if not session['logged_in']:
+        return redirect(url_for('login')) 
+    user = session['user']    
+    recipes = mongo.db.recipes.find({ 'user': user  })
+    return render_template('my_recipes.html',recipes=recipes)
+    
+@app.route('/delete_recipe/<recipe_id>')
+def delete_recipe(recipe_id):
+    if not session['logged_in']:
+        return redirect(url_for('login')) 
+    mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})  
+    mongo.db.recipes.remove({'_id':ObjectId(recipe_id)})
+    return redirect (url_for('my_recipes'))
+    
+@app.route('/edit_recipe/<recipe_id>')
+def edit_recipe(recipe_id):
+    if not session['logged_in']:
+        return redirect(url_for('login'))
+    _diet_list=mongo.db.diet.find()
+    diet_list=[diet for diet in _diet_list]
+    _cuisine_list=mongo.db.cuisine.find()
+    cuisine_list=[cuisine for cuisine in _cuisine_list ]
+    recipe=mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})
+    _allergens_list=mongo.db.allergens.find()
+    allergens_list=[allergen for allergen in _allergens_list]
+    _units=mongo.db.units.find()
+    ingredient_length=len(recipe['ingredients'])
+    steps_length=len(recipe['steps'])
+    units_list=[unit for unit in _units]
+    return render_template('edit_recipe.html',recipe=recipe,
+                            _diet=diet_list,_cuisine=cuisine_list,
+                            _allergens=allergens_list,units=units_list,
+                            ingredient_length=ingredient_length,steps_length=steps_length)
+
+@app.route('/update_recipe/<recipe_id>')
+def update_recipe(recipe_id):
+    if not session['logged_in']:
+        return redirect(url_for('login'))
+    # recipes=mongo.db.recipes
+    print('ready for update')
+    return redirect(url_for('edit_recipe'))
     
 @app.route('/add_recipe')
 def add_recipe():

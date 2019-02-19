@@ -1,12 +1,13 @@
 {% extends 'base.html'%} {% block content %}
 <h2>Add Recipe</h2>
 <form action="{{url_for('insert_recipe')}}" method="POST">
-    <!--Title/DIET/CUISINE SECTION-->
+    <!--Title-->
     <div class="row">
         <div class="col">
             <label for="title">Title</label>
             <input type="text" class="form-control" value="{{recipes_dict.title}}" name="title" id="title" placeholder="Recipe Name" required>
         </div>
+        <!--DIET-->
         <div class="col">
             <label for="diet">Diet</label>
             <select class="form-control custom-select" name="diet" id="diet">
@@ -16,12 +17,13 @@
                 {% endfor %}
             </select>
         </div>
+        <!--CUISINE-->
         <div class="col">
             <label for="cuisine">Cuisine</label>
             <select class="form-control custom-select" name="cuisine" id="cuisine">
-                <option value="" disabled selected>Choose Cuisine</option>
+                <option disabled selected>Choose Cuisine</option>
                 {%for cuisine in _cuisine %}
-                <option {{'selected="selected"' if (('cuisine' in recipes_dict)) and (recipes_dict['cuisine']== cuisine.cuisine_name )}}>{{cuisine.cuisine_name}}</option>
+                <option {{selected if (('cuisine' in recipes_dict)) and (recipes_dict['cuisine']== cuisine.cuisine_name )}}>{{cuisine.cuisine_name}}</option>
                 {% endfor %}
             </select>
         </div>
@@ -37,13 +39,11 @@
         {% endfor %}
     </div>
     <!--SHORT DESCRIPTION-->
-
     <div class="form-group">
         <label for="description">Description</label>
         <textarea class="form-control" name="description"  placeholder="Add a short description(max 50 characters)" maxlength=50 rows="2">{{recipes_dict['description'] if ('description' in recipes_dict)}}</textarea>
     </div>
     <!--INGREDIENTS SECTION-->
-    {{ingredients}}
     {% for i in range(ingredients) %}
     <div class="row form-group">
         <div class="col">
@@ -67,7 +67,7 @@
     
     <button type="submit" class="btn btn-primary" name="submit" value="add_ingredient">Add Ingredient</button> 
     <button type="submit" class="btn btn-primary" name="submit" value="delete_ingredient">Delete Ingredient</button>
-    
+    <!--STEPS-->
     <h4 class="mt-2">Steps</h4>
     {% for i in range(steps)%}
         <div class="form-group">
