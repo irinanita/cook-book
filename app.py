@@ -130,8 +130,15 @@ def delete_recipe(recipe_id):
     mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})  
     mongo.db.recipes.remove({'_id':ObjectId(recipe_id)})
     return redirect (url_for('my_recipes'))
-    
-@app.route('/edit_recipe/<recipe_id>')
+
+"""
+Editing a recipe involves minor changes applied to data that already
+is in the database, such as change the quantity of a certain ingredient
+or rename it more specifically, add something to an existing step. It 
+does NOT allow to add new steps/ingredients as that is considered
+a completely different recipe.
+"""
+@app.route('/edit_recipe/<recipe_id>', methods = ['GET','POST'])
 def edit_recipe(recipe_id):
     if not session['logged_in']:
         return redirect(url_for('login'))
@@ -146,18 +153,54 @@ def edit_recipe(recipe_id):
     ingredient_length=len(recipe['ingredients'])
     steps_length=len(recipe['steps'])
     units_list=[unit for unit in _units]
+    
+   
     return render_template('edit_recipe.html',recipe=recipe,
                             _diet=diet_list,_cuisine=cuisine_list,
                             _allergens=allergens_list,units=units_list,
                             ingredient_length=ingredient_length,steps_length=steps_length)
 
-@app.route('/update_recipe/<recipe_id>')
+@app.route('/update_recipe/<recipe_id>',methods=['GET','POST'])
 def update_recipe(recipe_id):
     if not session['logged_in']:
         return redirect(url_for('login'))
-    # recipes=mongo.db.recipes
+    recipes_dict=request.form.to_dict()
+    
+    headers = ('name', 'qty','units')
+    values = (
+        request.form.getlist('ingredient-name[]'),
+        request.form.getlist('ingredient-qty[]'),
+        request.form.getlist('ingredient-units[]'),
+    )
+    items = [{} for i in range(len(values[0]))]
+    for x,i in enumerate(values):
+        for _x,_i in enumerate(i):
+            items[_x][headers[x]] = _i
+    
+    
+    form_allergens = request.form.getlist("allergens[]")
+    form_steps = request.form.getlist("steps")
+  
+    
+    if request.form["image"]=="":
+        request.form["image"]="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
+    
+    if request.form.get('submit') == 'submit':
+        recipes=mongo.db.recipes
+       
+        recipes.update_one({'_id': ObjectId(recipe_id)},
+        {"$set":{'title':request.form['title'],
+            'description':request.form['description'],
+            'task_description':request.form.get('task_description'),
+            'allergens':form_allergens,
+            'cuisine':request.form['cuisine'],
+            'diet':request.form['diet'],
+            'ingredients':items,
+            'steps':form_steps,
+            'image':request.form['image'] }})   
+    
     print('ready for update')
-    return redirect(url_for('edit_recipe'))
+    return redirect(url_for('my_recipes'))
     
 @app.route('/add_recipe')
 def add_recipe():
