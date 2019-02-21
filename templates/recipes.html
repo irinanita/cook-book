@@ -1,5 +1,6 @@
 {%extends 'base.html'%}{%block content%}
 <h2 class="text-center">Recipes</h2>
+<p>Total Recipes: {{recipes_count}}</p>
 <div class="row mt-5">
     <form action="{{url_for('recipes')}}" method="POST">
         <div class="row form-group">
@@ -33,16 +34,31 @@
         </div>
     </form>
 </div>
+
 <div class="row mt-3">
     {% for recipe in recipes %}
     <div class="col-md-6 col-lg-3">
+
         <a class="text-reset" href="{{url_for('view_recipe',recipe_id=recipe._id)}}">
             <div class="img-container" style="background-image: url({{recipe['image']}}); background-size: cover; padding-top: 60%;"> </div>
             <h5>{{recipe['title']}}</h5>
             {{recipe._id.generation_time}}
         </a>
+
     </div>
     {%endfor%}
 </div>
-
+<div class="row mt-4">
+    {% if page >1 %}
+    <div class="col float-left">
+        <a class="text-reset" href="{{url_for('recipes',page=page-1)}}">Previous Page</a>
+    </div>
+    {% endif%} 
+    <div class="col">
+        Current Page:{{page}}
+    </div>
+    <div class="col float-right">
+        <a class="text-reset float-right" href="{{url_for('recipes',page=page+1)}}">Next Page</a>
+    </div>
+</div>
 {%endblock%}

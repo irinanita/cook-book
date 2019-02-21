@@ -16,6 +16,8 @@ mongo=PyMongo(app)
 def login():
     message="In order to use the cook book please login"
     session['logged_in']=False
+    # Release a session variable containing user 
+    session.pop('user', None)
     return render_template('login.html',message=message)
 
 @app.route('/login',methods=['GET','POST'])
@@ -28,7 +30,7 @@ def login_2():
         session['user']=username
         session['logged_in']=True
         return redirect(url_for('home'))    
-    return render_template('login.html')
+    return redirect(url_for('login.html'))
 
 @app.route('/new_user')
 def new_user():
@@ -72,8 +74,9 @@ def view_recipe(recipe_id):
     mongo.db.recipes.update_one({'_id':ObjectId(recipe_id)},{'$inc':{'views':1}}) 
     return render_template('view_recipe.html',recipe=the_recipe,views=views)
 
-@app.route('/recipes',methods =["POST","GET"])
-def recipes():
+@app.route('/recipes',methods =["POST","GET"], defaults={'page': 1})
+@app.route('/recipes/page/<page>',methods =["POST","GET"])
+def recipes(page):
     if not session['logged_in']:
         return redirect(url_for('login')) 
     if "browse" in request.form:
@@ -107,13 +110,23 @@ def recipes():
             sortField = 'views'
             sortOrder = -1
     
-    recipes = mongo.db.recipes.find(findParams).sort(sortField,sortOrder)
+    recipes_all = mongo.db.recipes.find(findParams).sort(sortField,sortOrder)
+    page_size=8
+    recipes_total= recipes_all.count()
+    #page_num= round (recipes_total/page)
+    # page_num=8
+    
+    page=int(page)
+    skips = page_size * (int(page) - 1)
+    print(page, page_size, skips)
+    recipes=recipes_all.skip(skips).limit(page_size)
     
     _diet_list=mongo.db.diet.find()
     diet_list=[diet for diet in _diet_list]
     _cuisine_list=mongo.db.cuisine.find()
     cuisine_list=[cuisine for cuisine in _cuisine_list ]
-    return render_template('recipes.html',recipes=recipes,_diet=diet_list,_cuisine=cuisine_list)
+    return render_template('recipes.html',page=page,recipes=recipes,recipes_count=recipes_total,
+    _diet=diet_list,_cuisine=cuisine_list)
 
 @app.route('/my_recipes')
 def my_recipes():
@@ -142,11 +155,18 @@ a completely different recipe.
 def edit_recipe(recipe_id):
     if not session['logged_in']:
         return redirect(url_for('login'))
+    user = session['user']    
+    recipe=mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})
+    
+    #in order to avoid users editing recipes that are not their
+    if recipe['user'] != user:
+        return redirect(url_for('login'))
+    
     _diet_list=mongo.db.diet.find()
     diet_list=[diet for diet in _diet_list]
     _cuisine_list=mongo.db.cuisine.find()
     cuisine_list=[cuisine for cuisine in _cuisine_list ]
-    recipe=mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})
+    
     _allergens_list=mongo.db.allergens.find()
     allergens_list=[allergen for allergen in _allergens_list]
     _units=mongo.db.units.find()

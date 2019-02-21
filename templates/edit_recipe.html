@@ -62,7 +62,7 @@
         </div>
         <div class="col">
             <label for="ingredient-quantity">Quantity</label>
-            <input type="number" class="form-control" value="{{recipe['ingredients'][i]['qty'] if (('ingredients' in recipe)) and (recipe['ingredients'][i])}}" name="ingredient-qty[]"  placeholder="Qty">
+            <input type="number" step="0.01" class="form-control" value="{{recipe['ingredients'][i]['qty'] if (('ingredients' in recipe)) and (recipe['ingredients'][i])}}" name="ingredient-qty[]"  placeholder="Qty">
         </div>
         <div class="col">
             <label for="ingredient-unit">Units</label>
