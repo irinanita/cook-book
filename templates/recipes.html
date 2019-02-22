@@ -6,7 +6,11 @@
         <div class="row form-group">
             <div class="col">
                 <select class="custom-select" name="browse">
+                    {%if 'browse' in filters%}
+                    <option selected>{{filters['browse']}}</option>
+                    {% else %}
                     <option disabled selected>Browse</option>
+                    {%endif%}
                     <option>All</option>
                     <optgroup label="Diet">
                             {% for diet in _diet %}
@@ -22,14 +26,18 @@
             </div>
             <div class="col">
                 <select class="custom-select" name="sort">
-                    <option value="" disabled selected>Sort By</option>                 
+                    {%if 'sort' in filters%}
+                    <option selected>{{filters['sort']}}</option>
+                    {%else%}
+                    <option value="" disabled selected>Sort By</option>    
+                    {%endif%}
                     <option>Latest Entry First</option>
                     <option>Oldest Entry First</option>
                     <option>Most viewed on top</option>
                 </select>
             </div>
             <div class="col">
-                <button type="submit" class="btn btn-primary" name="submit" value="submit">Apply</button>
+                <button type="submit" class="btn btn-primary" name="submit">Apply</button>
             </div>
         </div>
     </form>
@@ -37,6 +45,7 @@
 
 <div class="row mt-3">
     {% for recipe in recipes %}
+    {% if loop.index0 < page_size %}
     <div class="col-md-6 col-lg-3">
 
         <a class="text-reset" href="{{url_for('view_recipe',recipe_id=recipe._id)}}">
@@ -46,19 +55,52 @@
         </a>
 
     </div>
+    {% endif %}
     {%endfor%}
 </div>
-<div class="row mt-4">
+<div class="row mt-4 clearfix">
     {% if page >1 %}
     <div class="col float-left">
-        <a class="text-reset" href="{{url_for('recipes',page=page-1)}}">Previous Page</a>
-    </div>
+        <form action="{{url_for('recipes',page=page-1)}}" method="POST">
+                    {%if 'browse' in filters%}
+                    <input type="hidden" value="{{filters['browse']}}" name="browse">
+                    {%else%}
+                    <input type="hidden" value="" name="browse">
+                    {%endif%}
+                    {%if 'sort' in filters%}
+                    <input type="hidden" value="{{filters['sort']}}"name="sort">
+                    {%else%}
+                    <input type="hidden" value="" name="sort">
+                    {%endif%}
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary" name="submit" value="previous-page">Previous Page</button>
+            </div>
+    </form>
+   
     {% endif%} 
     <div class="col">
         Current Page:{{page}}
+        {{recipes_length}}
     </div>
     <div class="col float-right">
-        <a class="text-reset float-right" href="{{url_for('recipes',page=page+1)}}">Next Page</a>
-    </div>
-</div>
+        {% if recipes_length > page_size %}
+        <form action="{{url_for('recipes',page=page+1)}}" method="POST">
+                    {%if 'browse' in filters%}
+                    <input type="hidden" value="{{filters['browse']}}" name="browse">
+                    {%else%}
+                    <input type="hidden" value="" name="browse">
+                    {%endif%}
+                    {%if 'sort' in filters%}
+                    <input type="hidden" value="{{filters['sort']}}"name="sort">
+                    {%else%}
+                    <input type="hidden" value="" name="sort">
+                    {%endif%}
+            </div>
+            <div class="col">
+                <button type="submit" class="btn btn-primary" name="submit" value="next-page">Next Page</button>
+            </div>
+    </form>
+    {%endif%}
+     </div>
 {%endblock%}

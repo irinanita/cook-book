@@ -79,7 +79,9 @@ def view_recipe(recipe_id):
 def recipes(page):
     if not session['logged_in']:
         return redirect(url_for('login')) 
+    filters={}    
     if "browse" in request.form:
+        filters['browse']=request.form["browse"]
         tmpParams = [];
         tmpParams.append({"cuisine":request.form["browse"]})
         tmpParams.append({"diet":request.form["browse"]})
@@ -99,7 +101,9 @@ def recipes(page):
     sortField = "_id"
     sortOrder = -1
     
+    
     if "sort" in request.form:
+        filters['sort']=request.form["sort"]
         if request.form['sort']=="Latest Entry First":
             sortField = '_id'
             sortOrder = -1
@@ -119,14 +123,17 @@ def recipes(page):
     page=int(page)
     skips = page_size * (int(page) - 1)
     print(page, page_size, skips)
-    recipes=recipes_all.skip(skips).limit(page_size)
+    recipes=recipes_all.skip(skips).limit(page_size + 1)
+    recipes_length=recipes.count(True)
+    print('recipes_length =>>>', recipes_length, page_size)
+    
     
     _diet_list=mongo.db.diet.find()
     diet_list=[diet for diet in _diet_list]
     _cuisine_list=mongo.db.cuisine.find()
     cuisine_list=[cuisine for cuisine in _cuisine_list ]
     return render_template('recipes.html',page=page,recipes=recipes,recipes_count=recipes_total,
-    _diet=diet_list,_cuisine=cuisine_list)
+    _diet=diet_list,_cuisine=cuisine_list,filters=filters,page_size=page_size,recipes_length=recipes_length)
 
 @app.route('/my_recipes')
 def my_recipes():
