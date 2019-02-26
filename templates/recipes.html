@@ -2,7 +2,8 @@
 <h2 class="text-center">Recipes</h2>
 <p>Total Recipes: {{recipes_count}}</p>
 <div class="row mt-5">
-    <form action="{{url_for('recipes')}}" method="POST">
+    <form action="{{url_for('recipes')}}" method="GET">
+        <input type="hidden" name="keyword" value="{{keyword if keyword}}"/>
         <div class="row form-group">
             <div class="col">
                 <select class="custom-select" name="browse">
@@ -36,6 +37,7 @@
                     <option>Most viewed on top</option>
                 </select>
             </div>
+            
             <div class="col">
                 <button type="submit" class="btn btn-primary" name="submit">Apply</button>
             </div>
@@ -61,16 +63,15 @@
 <div class="row mt-4 clearfix">
     {% if page >1 %}
     <div class="col float-left">
-        <form action="{{url_for('recipes',page=page-1)}}" method="POST">
+        <form action="{{url_for('recipes',page=page-1)}}" method="GET">
+            {%if keyword %}
+            <input type="hidden" name="keyword" value="{{keyword}}"/>
+            {%endif%}
                     {%if 'browse' in filters%}
                     <input type="hidden" value="{{filters['browse']}}" name="browse">
-                    {%else%}
-                    <input type="hidden" value="" name="browse">
                     {%endif%}
                     {%if 'sort' in filters%}
                     <input type="hidden" value="{{filters['sort']}}"name="sort">
-                    {%else%}
-                    <input type="hidden" value="" name="sort">
                     {%endif%}
             </div>
             <div class="col">
@@ -85,16 +86,15 @@
     </div>
     <div class="col float-right">
         {% if recipes_length > page_size %}
-        <form action="{{url_for('recipes',page=page+1)}}" method="POST">
+        <form action="{{url_for('recipes',page=page+1)}}" method="GET">
+             {%if keyword %}
+            <input type="hidden" name="keyword" value="{{keyword}}"/>
+            {%endif%}
                     {%if 'browse' in filters%}
                     <input type="hidden" value="{{filters['browse']}}" name="browse">
-                    {%else%}
-                    <input type="hidden" value="" name="browse">
                     {%endif%}
                     {%if 'sort' in filters%}
                     <input type="hidden" value="{{filters['sort']}}"name="sort">
-                    {%else%}
-                    <input type="hidden" value="" name="sort">
                     {%endif%}
             </div>
             <div class="col">

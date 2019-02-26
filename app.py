@@ -42,14 +42,12 @@ def register():
     users=mongo.db.users
     username=request.form['user']
     if users.find_one({"user":username}):
-        print('existing user, pick another username')
         message="User already exists, please pick another username"
         return render_template('new_user.html',message=message)
     else:    
         user["user"]=username
         user["password"]=request.form['password']
         users.insert_one(user)
-        print(user,'created')
         message="User created successfully"
     return render_template('login.html',message=message)  
 
@@ -74,66 +72,68 @@ def view_recipe(recipe_id):
     mongo.db.recipes.update_one({'_id':ObjectId(recipe_id)},{'$inc':{'views':1}}) 
     return render_template('view_recipe.html',recipe=the_recipe,views=views)
 
-@app.route('/recipes',methods =["POST","GET"], defaults={'page': 1})
-@app.route('/recipes/page/<page>',methods =["POST","GET"])
+@app.route('/recipes',defaults={'page': 1})
+@app.route('/recipes/page/<page>')
 def recipes(page):
     if not session['logged_in']:
         return redirect(url_for('login')) 
     filters={}    
-    if "browse" in request.form:
-        filters['browse']=request.form["browse"]
+    if "browse" in request.args:
+        filters['browse']=request.args.get("browse")
+        print(filters['browse'])
         tmpParams = [];
-        tmpParams.append({"cuisine":request.form["browse"]})
-        tmpParams.append({"diet":request.form["browse"]})
+        tmpParams.append({"cuisine":request.args.get("browse")})
+        tmpParams.append({"diet":request.args.get("browse")})
         
-        if request.form["browse"]=="All":
+        if request.args.get("browse")=="All":
             findParams={}
         else:
             findParams = { '$or': tmpParams }
     else:
         findParams = {}
    
-    if "keyword" in request.args:
+    if "keyword" in request.args and request.args.get('keyword')!="":
         keyword = request.args.get('keyword')
         mongo.db.recipes.create_index([('$**','text')])
         findParams['$text'] = { '$search': keyword  }
+    else:
+        keyword=None
    
     sortField = "_id"
     sortOrder = -1
     
     
-    if "sort" in request.form:
-        filters['sort']=request.form["sort"]
-        if request.form['sort']=="Latest Entry First":
+    if "sort" in request.args:
+        filters['sort']=request.args.get("sort")
+        print(filters['sort'])
+        if request.args.get('sort')=="Latest Entry First":
             sortField = '_id'
             sortOrder = -1
-        elif request.form['sort']=="Oldest Entry First":
+        elif request.args.get('sort')=="Oldest Entry First":
             sortField = '_id'
             sortOrder = 1
-        elif request.form['sort']=="Most viewed on top":
+        elif request.args.get('sort')=="Most viewed on top":
             sortField = 'views'
             sortOrder = -1
-    
+     
     recipes_all = mongo.db.recipes.find(findParams).sort(sortField,sortOrder)
     page_size=8
     recipes_total= recipes_all.count()
-    #page_num= round (recipes_total/page)
-    # page_num=8
+   
     
     page=int(page)
     skips = page_size * (int(page) - 1)
-    print(page, page_size, skips)
     recipes=recipes_all.skip(skips).limit(page_size + 1)
     recipes_length=recipes.count(True)
-    print('recipes_length =>>>', recipes_length, page_size)
-    
+  
+   
     
     _diet_list=mongo.db.diet.find()
     diet_list=[diet for diet in _diet_list]
     _cuisine_list=mongo.db.cuisine.find()
     cuisine_list=[cuisine for cuisine in _cuisine_list ]
     return render_template('recipes.html',page=page,recipes=recipes,recipes_count=recipes_total,
-    _diet=diet_list,_cuisine=cuisine_list,filters=filters,page_size=page_size,recipes_length=recipes_length)
+    _diet=diet_list,_cuisine=cuisine_list,filters=filters,page_size=page_size,recipes_length=recipes_length,keyword=keyword)
 
 @app.route('/my_recipes')
 def my_recipes():
@@ -226,7 +226,6 @@ def update_recipe(recipe_id):
             'steps':form_steps,
             'image':request.form['image'] }})   
     
-    print('ready for update')
     return redirect(url_for('my_recipes'))
     
 @app.route('/add_recipe')

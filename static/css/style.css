@@ -7,6 +7,10 @@ body{
     flex-direction:column;
 }
 
+.custom-select{
+    width:auto;
+}
+
 .container--flex{
     flex:1 0 auto;
 }
