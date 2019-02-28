@@ -20,6 +20,12 @@ body{
     flex-shrink:0;
 }
 
+.navbar-brand{
+  transform: translateX(-50%);
+  left: 50%;
+  position: absolute;
+}
+
 .img-container{
     overflow: hidden;
 }

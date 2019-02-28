@@ -282,7 +282,6 @@ def insert_recipe():
     
     form_allergens = request.form.getlist("allergens[]")
     form_steps = request.form.getlist("steps")
-    form_diet = request.form['diet']
     
     del recipes_dict["ingredient-name[]"]
     del recipes_dict["ingredient-qty[]"]
@@ -318,7 +317,7 @@ def insert_recipe():
         ingredients -= 1
  
     return render_template('add_recipe.html', steps=steps, form_steps=form_steps, recipes_dict=recipes_dict,
-    ingredients=ingredients,selected_diet=form_diet,units=units_list,_cuisine=cuisine_list, _diet=diet_list,
+    ingredients=ingredients,units=units_list,_cuisine=cuisine_list, _diet=diet_list,
     _allergens=allergens_list,form_allergens=form_allergens )    
     
 
