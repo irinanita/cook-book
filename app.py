@@ -13,15 +13,20 @@ app.config["MONGO_URI"]="mongodb://admin:ceckbrb05@ds121295.mlab.com:21295/cook_
 mongo=PyMongo(app)
 
 @app.route('/', methods=['GET','POST'])
-def login():
+def home():
+    recipes=mongo.db.recipes.find().sort('_id', -1).limit(4) #return the latest 4 recipes
+    return render_template('home.html',recipes=recipes)
+
+@app.route('/autentication', methods=['GET','POST'])
+def autentication():
     message="In order to use the cook book please login"
     session['logged_in']=False
-    # Release a session variable containing user 
+    # Release the session variable containing current user's name 
     session.pop('user', None)
     return render_template('login.html',message=message)
 
 @app.route('/login',methods=['GET','POST'])
-def login_2():
+def login():
     users=mongo.db.users
     username=request.form['user']
     user=users.find_one({"user":username})
@@ -51,21 +56,9 @@ def register():
         message="User created successfully"
     return render_template('login.html',message=message)  
 
-    
-
-@app.route('/home')
-def home():
-    if not session['logged_in']:
-        return redirect(url_for('login'))    
-    recipes=mongo.db.recipes.find().sort('_id', -1).limit(4) #return the latest 4 recipes
-    return render_template('home.html',recipes=recipes)
-  
-        
 
 @app.route('/view_recipe/<recipe_id>')
 def view_recipe(recipe_id):
-    if not session['logged_in']:
-        return redirect(url_for('login')) 
     the_recipe=mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})
     #Everytime a recipe is opened the number increases
     views=int(the_recipe['views'])
@@ -75,12 +68,9 @@ def view_recipe(recipe_id):
 @app.route('/recipes',defaults={'page': 1})
 @app.route('/recipes/page/<page>')
 def recipes(page):
-    if not session['logged_in']:
-        return redirect(url_for('login')) 
     filters={}    
     if "browse" in request.args:
         filters['browse']=request.args.get("browse")
-        print(filters['browse'])
         tmpParams = [];
         tmpParams.append({"cuisine":request.args.get("browse")})
         tmpParams.append({"diet":request.args.get("browse")})
@@ -127,7 +117,6 @@ def recipes(page):
     recipes_length=recipes.count(True)
   
    
-    
     _diet_list=mongo.db.diet.find()
     diet_list=[diet for diet in _diet_list]
     _cuisine_list=mongo.db.cuisine.find()
@@ -138,7 +127,8 @@ def recipes(page):
 @app.route('/my_recipes')
 def my_recipes():
     if not session['logged_in']:
-        return redirect(url_for('login')) 
+        message="In order to view your recipes or add a new one please log in"
+        return render_template('login.html', message=message)
     user = session['user']    
     recipes = mongo.db.recipes.find({ 'user': user  })
     return render_template('my_recipes.html',recipes=recipes)
@@ -146,7 +136,7 @@ def my_recipes():
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
     if not session['logged_in']:
-        return redirect(url_for('login')) 
+        return redirect(url_for('autentication')) 
     mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})  
     mongo.db.recipes.remove({'_id':ObjectId(recipe_id)})
     return redirect (url_for('my_recipes'))
@@ -161,13 +151,13 @@ a completely different recipe.
 @app.route('/edit_recipe/<recipe_id>', methods = ['GET','POST'])
 def edit_recipe(recipe_id):
     if not session['logged_in']:
-        return redirect(url_for('login'))
+        return redirect(url_for('autentication'))
     user = session['user']    
     recipe=mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})
     
-    #in order to avoid users editing recipes that are not their
+    #in order to avoid users editing recipes that are not theirs
     if recipe['user'] != user:
-        return redirect(url_for('login'))
+        return redirect(url_for('autentication'))
     
     _diet_list=mongo.db.diet.find()
     diet_list=[diet for diet in _diet_list]
@@ -190,7 +180,7 @@ def edit_recipe(recipe_id):
 @app.route('/update_recipe/<recipe_id>',methods=['GET','POST'])
 def update_recipe(recipe_id):
     if not session['logged_in']:
-        return redirect(url_for('login'))
+        return redirect(url_for('autentication'))
     recipes_dict=request.form.to_dict()
     
     headers = ('name', 'qty','units')
@@ -231,7 +221,8 @@ def update_recipe(recipe_id):
 @app.route('/add_recipe')
 def add_recipe():
     if not session['logged_in']:
-        return redirect(url_for('login')) 
+        message="If you would like to add a recipe please log in"
+        return render_template('login.html', message=message)    
     allergens_list=mongo.db.allergens.find()
     _diet_list=mongo.db.diet.find()
     diet_list=[diet for diet in _diet_list]
@@ -249,7 +240,7 @@ def add_recipe():
 @app.route('/insert_recipe', methods =["POST","GET"])
 def insert_recipe():
     if not session['logged_in']:
-        return redirect(url_for('login')) 
+        return redirect(url_for('autentication')) 
     _units=mongo.db.units.find()
     units_list=[unit for unit in _units]
     

@@ -7,12 +7,16 @@ body{
     flex-direction:column;
 }
 
-.custom-select{
-    width:auto;
-}
+/*.custom-select{*/
+/*    width:auto;*/
+/*}*/
 
 .container--flex{
     flex:1 0 auto;
+}
+
+.bootstrap-select>.dropdown-toggle.bs-placeholder{
+    color:#212529;
 }
 
 .footer,

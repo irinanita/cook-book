@@ -1,47 +1,47 @@
 {%extends 'base.html'%}{%block content%}
 <h2 class="text-center">Recipes</h2>
 <p>Total Recipes: {{recipes_count}}</p>
-<div class="row mt-5">
+<div class="mt-5">
     <form action="{{url_for('recipes')}}" method="GET">
-        <input type="hidden" name="keyword" value="{{keyword if keyword}}" />
-        <div class="row form-group">
-            <div class="col">
-                <select class="custom-select" name="browse">
-                    {%if 'browse' in filters%}
-                    <option selected>{{filters['browse']}}</option>
-                    {% else %}
+        <input  type="hidden" name="keyword" value="{{keyword if keyword}}" />
+        <div class="form-row">
+            <div class="form-group col-12 col-md-4">
+                <label for="browse">Select diet OR cuisine</label>
+                <select class="form-control selectpicker" name="browse" id="browse">
                     <option disabled selected>Browse</option>
-                    {%endif%}
-                    <option>All</option>
                     <optgroup label="Diet">
-                            {% for diet in _diet %}
-                            <option>{{diet.diet_name}}</option>
-                            {% endfor %}
+                        {% for diet in _diet %}
+                        <option {{"selected" if ('browse' in filters) and (filters['browse'] == diet.diet_name)}}>{{diet.diet_name}}</option>
+                        {% endfor %}
                         </optgroup>
                     <optgroup label="Cuisine">
                         {%for cuisine in _cuisine %}
-                        <option>{{cuisine.cuisine_name}}</option>
+                        <option {{"selected" if ('browse' in filters) and (filters['browse'] == cuisine.cuisine_name)}}>{{cuisine.cuisine_name}}</option>
                         {% endfor %}
+                    </optgroup>
+                    <optgroup label="Select All">
+                         <option>All</option>
                     </optgroup>
                 </select>
             </div>
-            <div class="col">
-                <select class="custom-select" name="sort">
-                    {%if 'sort' in filters%}
-                    <option selected>{{filters['sort']}}</option>
-                    {%else%}
-                    <option value="" disabled selected>Sort By</option>    
-                    {%endif%}
-                    <option>Latest Entry First</option>
-                    <option>Oldest Entry First</option>
-                    <option>Most viewed on top</option>
+            <div class="form-group col-12 col-md-4 ">
+                <label for="sort">Sort</label>
+                <select class="selectpicker form-control" name="sort" id="sort">
+                    <option {{"selected" if ('sort' in filters) and (filters['sort']=="Latest Entry First")}}>Latest Entry First</option>
+                    <option {{"selected" if ('sort' in filters) and (filters['sort']=="Oldest Entry First")}}>Oldest Entry First</option>
+                    <option {{"selected" if ('sort' in filters) and (filters['sort']=="Most viewed on top")}}>Most viewed on top</option>
                 </select>
             </div>
-
-            <div class="col">
-                <button type="submit" class="btn btn-primary" name="submit">Apply</button>
+            <div class="form-group col-12 col-md-4 ">
+                <label for="allergies_list">EXCLUDE Allergens</label>
+                <select class="selectpicker form-control" data-style ="btn-light btn-new" id="allergies_list" multiple>
+                <option>Mustard</option>
+                <option>Ketchup</option>
+                <option>Relish</option>
+                </select>
             </div>
         </div>
+        <button type="submit" class="btn btn-primary" name="submit">Apply</button>
     </form>
 </div>
 
