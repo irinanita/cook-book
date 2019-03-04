@@ -181,8 +181,16 @@ def edit_recipe(recipe_id):
 def update_recipe(recipe_id):
     if not session['logged_in']:
         return redirect(url_for('autentication'))
+   
+    recipe=mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})
     recipes_dict=request.form.to_dict()
+    print(recipe['diet'],"recipe")
+    print(recipes_dict['diet'],"form to dictionary")
+    print(recipes_dict)
+    ingredient_length=len(request.form.getlist("ingredient-name[]"))
+    steps_length=len(request.form.getlist("steps"))
     
+
     headers = ('name', 'qty','units')
     values = (
         request.form.getlist('ingredient-name[]'),
@@ -198,25 +206,50 @@ def update_recipe(recipe_id):
     form_allergens = request.form.getlist("allergens[]")
     form_steps = request.form.getlist("steps")
   
+    del recipes_dict["ingredient-name[]"]
+    del recipes_dict["ingredient-qty[]"]
+    del recipes_dict["ingredient-units[]"]
+    del recipes_dict["steps"]
     
+    if form_allergens:
+        del recipes_dict["allergens[]"]
+    recipes_dict["ingredients"]=items
+    recipes_dict["steps"]=form_steps
+    recipes_dict["allergens"]=form_allergens
+  
+  
     if request.form["image"]=="":
         request.form["image"]="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
     
     if request.form.get('submit') == 'submit':
         recipes=mongo.db.recipes
        
-        recipes.update_one({'_id': ObjectId(recipe_id)},
-        {"$set":{'title':request.form['title'],
-            'description':request.form['description'],
-            'task_description':request.form.get('task_description'),
-            'allergens':form_allergens,
-            'cuisine':request.form['cuisine'],
-            'diet':request.form['diet'],
-            'ingredients':items,
-            'steps':form_steps,
-            'image':request.form['image'] }})   
+        recipes.update_one({'_id': ObjectId(recipe_id)},{"$set":recipes_dict})   
+        
+        return redirect(url_for('my_recipes'))
+    elif request.form.get('submit') == 'add_step':
+        # add step
+        steps_length += 1
+    elif request.form.get('submit') == 'add_ingredient': 
+        ingredient_length += 1
+    elif request.form.get('submit') == 'delete_step':
+        steps_length -= 1 
+    elif request.form.get('submit') == 'delete_ingredient':  
+        ingredient_length -= 1
+    _diet_list=mongo.db.diet.find()
+    diet_list=[diet for diet in _diet_list]
+    _cuisine_list=mongo.db.cuisine.find()
+    cuisine_list=[cuisine for cuisine in _cuisine_list ]
     
-    return redirect(url_for('my_recipes'))
+    _allergens_list=mongo.db.allergens.find()
+    allergens_list=[allergen for allergen in _allergens_list]
+    _units=mongo.db.units.find()
+    units_list=[unit for unit in _units]
+    return render_template('edit_recipe.html',recipe=recipe,recipes_dict=recipes_dict,
+                            _diet=diet_list,_cuisine=cuisine_list,
+                            _allergens=allergens_list,units=units_list,
+                            ingredient_length=ingredient_length,steps_length=steps_length)
+    
     
 @app.route('/add_recipe')
 def add_recipe():
