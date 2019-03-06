@@ -46,16 +46,14 @@
 </div>
 
 <div class="row mt-3">
-    {% for recipe in recipes %} {% if loop.index0
-    < page_size %} <div class="col-md-6 col-lg-3">
-
+    {% for recipe in recipes %} {% if loop.index0 < page_size %} 
+    <div class="col-md-6 col-lg-3">
         <a class="text-reset" href="{{url_for('view_recipe',recipe_id=recipe._id)}}">
             <div class="img-container" style="background-image: url({{recipe['image']}}); background-size: cover; padding-top: 60%;"> </div>
             <h5>{{recipe['title']}}</h5>
             {{recipe._id.generation_time}}
         </a>
-
-</div>
+    </div>
 {% endif %} {%endfor%}
 </div>
 <div class="row mt-4 clearfix">

@@ -124,14 +124,26 @@ def recipes(page):
     return render_template('recipes.html',page=page,recipes=recipes,recipes_count=recipes_total,
     _diet=diet_list,_cuisine=cuisine_list,filters=filters,page_size=page_size,recipes_length=recipes_length,keyword=keyword)
 
-@app.route('/my_recipes')
-def my_recipes():
+@app.route('/my_recipes',defaults={'page':1})
+@app.route('/my_recipes/page/<page>')
+def my_recipes(page):
     if not session['logged_in']:
         message="In order to view your recipes or add a new one please log in"
         return render_template('login.html', message=message)
-    user = session['user']    
-    recipes = mongo.db.recipes.find({ 'user': user  })
-    return render_template('my_recipes.html',recipes=recipes)
+    user = session['user']
+    
+    recipes_total_user= mongo.db.recipes.find({ 'user': user  }).sort('_id',-1)
+    recipes_total_count=recipes_total_user.count()
+    
+    page_size=8
+ 
+    page=int(page)
+    skips = page_size * (int(page) - 1)
+    recipes_per_page=recipes_total_user.skip(skips).limit(page_size + 1)
+    recipes_length=recipes_per_page.count(True)
+    
+    
+    return render_template('my_recipes.html',recipes=recipes_per_page,page_size=page_size,page=page,recipes_length=recipes_length,total_recipes=recipes_total_count)
     
 @app.route('/delete_recipe/<recipe_id>')
 def delete_recipe(recipe_id):
@@ -187,6 +199,8 @@ def update_recipe(recipe_id):
     print(recipe['diet'],"recipe")
     print(recipes_dict['diet'],"form to dictionary")
     print(recipes_dict)
+    
+
     ingredient_length=len(request.form.getlist("ingredient-name[]"))
     steps_length=len(request.form.getlist("steps"))
     
@@ -218,12 +232,10 @@ def update_recipe(recipe_id):
     recipes_dict["allergens"]=form_allergens
   
   
-    if request.form["image"]=="":
-        request.form["image"]="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
-    
     if request.form.get('submit') == 'submit':
         recipes=mongo.db.recipes
-       
+        if request.form["image"]=="":
+            request.form["image"]="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
         recipes.update_one({'_id': ObjectId(recipe_id)},{"$set":recipes_dict})   
         
         return redirect(url_for('my_recipes'))
