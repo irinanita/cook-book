@@ -68,7 +68,15 @@ def view_recipe(recipe_id):
 @app.route('/recipes',defaults={'page': 1})
 @app.route('/recipes/page/<page>')
 def recipes(page):
-    filters={}    
+    filters={}
+    if "exclude_allergy[]" in request.args:
+        filters['exclude']=request.args.getlist('exclude_allergy[]')
+        excludeParams={"allergens":{'$nin':filters['exclude']}}
+        print(filters['exclude'],'filters["exclude"]')
+    else:
+        excludeParams={}
+        filters['exclude']=[]
+   
     if "browse" in request.args:
         filters['browse']=request.args.get("browse")
         tmpParams = [];
@@ -95,7 +103,6 @@ def recipes(page):
     
     if "sort" in request.args:
         filters['sort']=request.args.get("sort")
-        print(filters['sort'])
         if request.args.get('sort')=="Latest Entry First":
             sortField = '_id'
             sortOrder = -1
@@ -105,12 +112,36 @@ def recipes(page):
         elif request.args.get('sort')=="Most viewed on top":
             sortField = 'views'
             sortOrder = -1
-     
-    recipes_all = mongo.db.recipes.find(findParams).sort(sortField,sortOrder)
+    
+   
+   
+    
+      # { $and: [ { <expression1> }, { <expression2> } , ... , { <expressionN> } ] }
+        # { field: { $nin: [ <value1>, <value2> ... <valueN> ]} }
+        # {"allergens":{'$nin':filters['exclude']}}
+        
+#         db.inventory.find( {
+#         $and : [
+#         { $or : [ { price : 0.99 }, { price : 1.99 } ] },
+#         { $or : [ { sale : true }, { qty : { $lt : 20 } } ] }
+#     ]
+# } )
+    
+    if findParams and filters['exclude']:
+        recipes_all = mongo.db.recipes.find({'$and':[findParams,excludeParams]}).sort(sortField,sortOrder)
+    
+    if findParams and not filters['exclude']:
+        recipes_all = mongo.db.recipes.find(findParams).sort(sortField,sortOrder)
+        
+    if  filters['exclude'] and not findParams:
+        recipes_all = mongo.db.recipes.find(excludeParams).sort(sortField,sortOrder)
+    
+    if not filters['exclude'] and not findParams:
+        recipes_all = mongo.db.recipes.find().sort(sortField,sortOrder)
+    
     page_size=8
     recipes_total= recipes_all.count()
    
-    
     page=int(page)
     skips = page_size * (int(page) - 1)
     recipes=recipes_all.skip(skips).limit(page_size + 1)
@@ -121,8 +152,11 @@ def recipes(page):
     diet_list=[diet for diet in _diet_list]
     _cuisine_list=mongo.db.cuisine.find()
     cuisine_list=[cuisine for cuisine in _cuisine_list ]
+    _allergens_list=mongo.db.allergens.find()
+    allergens_list=[allergen for allergen in _allergens_list]
+    
     return render_template('recipes.html',page=page,recipes=recipes,recipes_count=recipes_total,
-    _diet=diet_list,_cuisine=cuisine_list,filters=filters,page_size=page_size,recipes_length=recipes_length,keyword=keyword)
+    _diet=diet_list,_cuisine=cuisine_list,_allergens=allergens_list,filters=filters,page_size=page_size,recipes_length=recipes_length,keyword=keyword)
 
 @app.route('/my_recipes',defaults={'page':1})
 @app.route('/my_recipes/page/<page>')
