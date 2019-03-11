@@ -1,5 +1,22 @@
 {% extends 'base.html'%} {% block content %}
-<h2>Add Recipe</h2>
+<h2>Edit Recipe</h2>
+{%if recipes_dict%}
+<p>Recipes Dict</p>
+{{recipes_dict}} 
+{%else%}
+<p>Recipe</p>
+{{recipe}}
+{%endif%}
+{%if message%}
+<div>
+   <p class="text-danger">{{message}}</p>
+   {%for key in keys_list%}
+   <ul>
+       <li>{{key}}</li>
+   </ul>
+   {%endfor%}
+</div>
+{%endif%}
 <form action="{{url_for('update_recipe',recipe_id=recipe._id)}}" method="POST">
     <!--TITLE-->
     <div class="form-row">

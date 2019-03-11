@@ -19,11 +19,10 @@ def home():
 
 @app.route('/autentication', methods=['GET','POST'])
 def autentication():
-    message="In order to use the cook book please login"
     session['logged_in']=False
     # Release the session variable containing current user's name 
     session.pop('user', None)
-    return render_template('login.html',message=message)
+    return render_template('login.html')
 
 @app.route('/login',methods=['GET','POST'])
 def login():
@@ -53,10 +52,9 @@ def register():
         user["user"]=username
         user["password"]=request.form['password']
         users.insert_one(user)
-        message="User created successfully"
-    return render_template('login.html',message=message)  
-
-
+        flash('User created successfully.Please login.')
+        return redirect(url_for('autentication'))
+    
 @app.route('/view_recipe/<recipe_id>')
 def view_recipe(recipe_id):
     the_recipe=mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})
@@ -148,11 +146,11 @@ def recipes(page):
 @app.route('/my_recipes/page/<page>')
 def my_recipes(page):
     if not session['logged_in']:
-        message="In order to view your recipes or add a new one please log in"
-        return render_template('login.html', message=message)
+        flash("In order to use the cook book please login")
+        return redirect(url_for('autentication'))    
     user = session['user']
     
-    recipes_total_user= mongo.db.recipes.find({ 'user': user  }).sort('_id',-1)
+    recipes_total_user= mongo.db.recipes.find({ 'user': user  }).sort('_id', -1)
     recipes_total_count=recipes_total_user.count()
     
     page_size=8
@@ -173,13 +171,7 @@ def delete_recipe(recipe_id):
     mongo.db.recipes.remove({'_id':ObjectId(recipe_id)})
     return redirect (url_for('my_recipes'))
 
-"""
-Editing a recipe involves minor changes applied to data that already
-is in the database, such as change the quantity of a certain ingredient
-or rename it more specifically, add something to an existing step. It 
-does NOT allow to add new steps/ingredients as that is considered
-a completely different recipe.
-"""
+
 @app.route('/edit_recipe/<recipe_id>', methods = ['GET','POST'])
 def edit_recipe(recipe_id):
     if not session['logged_in']:
@@ -236,7 +228,6 @@ def update_recipe(recipe_id):
         for _x,_i in enumerate(i):
             items[_x][headers[x]] = _i
     
-    
     form_allergens = request.form.getlist("allergens[]")
     form_steps = request.form.getlist("steps")
   
@@ -251,14 +242,38 @@ def update_recipe(recipe_id):
     recipes_dict["steps"]=form_steps
     recipes_dict["allergens"]=form_allergens
   
-  
     if request.form.get('submit') == 'submit':
+        
         if request.form["image"]=="":
             request.form["image"]="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
-        recipes=mongo.db.recipes
-        recipes.update_one({'_id': ObjectId(recipe_id)},{"$set":recipes_dict})   
         
-        return redirect(url_for('my_recipes'))
+         #List of keys. Keys with no values will be appended
+        keys_list=[]
+        
+        # To get keys which having zero length value(checks only allergens, description and title):
+        keys_list = [key for key,val in recipes_dict.items() if not val]
+        #Chek ingredients and steps
+        keys_list_ingredients = [val for val in recipes_dict["ingredients"] if not val["units"] or not val["name"] or not val["qty"]]
+        keys_list_steps = [val for val in recipes_dict["steps"] if not val]
+        #If diet not in the recipes-dictionary-form
+        if 'diet' not in recipes_dict:
+            keys_list.append('diet')
+        #If diet not in the recipes-dictionary-form    
+        if 'cuisine' not in recipes_dict:
+            keys_list.append('cuisine')
+        #If ingredients and steps have missing values append to the array containing empy keys
+        if keys_list_ingredients:
+            keys_list.append('ingredients')
+        if keys_list_steps:
+            keys_list.append('steps')
+        if keys_list:
+            message="Please fill in the following data"
+        else:
+            recipes=mongo.db.recipes
+            recipes.update_one({'_id': ObjectId(recipe_id)},{"$set":recipes_dict})  
+            flash('Your recipe was successfully updated')
+            return redirect(url_for('my_recipes'))
+        
     elif request.form.get('submit') == 'add_step':
         # add step
         steps_length += 1
@@ -272,22 +287,23 @@ def update_recipe(recipe_id):
     diet_list=[diet for diet in _diet_list]
     _cuisine_list=mongo.db.cuisine.find()
     cuisine_list=[cuisine for cuisine in _cuisine_list ]
-    
     _allergens_list=mongo.db.allergens.find()
     allergens_list=[allergen for allergen in _allergens_list]
     _units=mongo.db.units.find()
     units_list=[unit for unit in _units]
+    
     return render_template('edit_recipe.html',recipe=recipe,recipes_dict=recipes_dict,
                             _diet=diet_list,_cuisine=cuisine_list,
                             _allergens=allergens_list,units=units_list,
-                            ingredient_length=ingredient_length,steps_length=steps_length)
+                            ingredient_length=ingredient_length,steps_length=steps_length,
+                            keys_list=keys_list,message=message)
     
     
 @app.route('/add_recipe')
 def add_recipe():
     if not session['logged_in']:
-        message="If you would like to add a recipe please log in"
-        return render_template('login.html', message=message)    
+        flash("In order to use the cook book please login")
+        return redirect(url_for('autentication'))    
     allergens_list=mongo.db.allergens.find()
     _diet_list=mongo.db.diet.find()
     diet_list=[diet for diet in _diet_list]
@@ -386,7 +402,7 @@ def insert_recipe():
             recipes=mongo.db.recipes
             recipes.insert_one(recipes_dict)
             flash('Your recipe was successfully added')
-            return redirect(url_for('index'))
+            return redirect(url_for('my_recipes'))
         
     elif request.form.get('submit') == 'add_step':
         # add step

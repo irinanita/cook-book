@@ -1,5 +1,14 @@
 {%extends 'base.html'%}{%block content%}
 <h2 class="text-center">Recipes</h2>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
 <p>Total Recipes: {{recipes_count}}</p>
 <div class="mt-5">
     <form action="{{url_for('recipes')}}" method="GET">

@@ -1,5 +1,14 @@
 {%extends 'base.html'%}{%block content%}
 <h2 class="text-center">My Recipes</h2>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class=flashes>
+    {% for message in messages %}
+      <p>{{ message }}</p>
+    {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
 <p>Total Recipes: {{total_recipes}}</p>
 <div class="row mt-3">
     {% for recipe in recipes %}
