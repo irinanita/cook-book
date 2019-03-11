@@ -1,5 +1,15 @@
 {% extends 'base.html'%} {% block content %}
 <h2>Add Recipe</h2>
+{%if message%}
+<div>
+   <p class="text-danger">{{message}}</p>
+   {%for key in keys_list%}
+   <ul>
+       <li>{{key}}</li>
+   </ul>
+   {%endfor%}
+</div>
+{%endif%}
 <form action="{{url_for('insert_recipe')}}" method="POST">
     <!--Title-->
     <div class="form-row">
@@ -9,22 +19,21 @@
         </div>
         <!--DIET-->
         <div class="form-group col-12 col-md-4">
-            <label for="diet">Diet</label>
+            <label for="diet">Choose Diet</label>
             <select class="form-control custom-select " name="diet" id="diet">
-                <option value="" disabled selected>Choose Diet</option>            
+                <option selected disabled>Choose diet</option>
                 {% for diet in _diet %}
-                <option {{"selected" if (('diet' in recipes_dict)) and (recipes_dict['diet']== diet.diet_name )}}>{{diet.diet_name}}</option>
+                <option value="{{diet.diet_name}}" {{"selected" if (('diet' in recipes_dict)) and (recipes_dict['diet']== diet.diet_name )}}>{{diet.diet_name}}</option>
                 {% endfor %}
             </select>
         </div>
         <!--CUISINE-->
         <div class="form-group col-12 col-md-4">
-
             <label for="cuisine">Cuisine</label>
             <select class="form-control custom-select " name="cuisine" id="cuisine">
-                <option value="" disabled selected>Choose Cuisine</option>
+                <option selected disabled>Choose Cuisine</option>
                 {%for cuisine in _cuisine %}
-                <option {{"selected" if (('cuisine' in recipes_dict)) and (recipes_dict['cuisine']== cuisine.cuisine_name )}}>{{cuisine.cuisine_name}}</option>
+                <option value="{{cuisine.cuisine_name}}" {{"selected" if (('cuisine' in recipes_dict)) and (recipes_dict['cuisine']== cuisine.cuisine_name )}}>{{cuisine.cuisine_name}}</option>
                 {% endfor %}
             </select>
         </div>

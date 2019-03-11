@@ -113,20 +113,6 @@ def recipes(page):
             sortField = 'views'
             sortOrder = -1
     
-   
-   
-    
-      # { $and: [ { <expression1> }, { <expression2> } , ... , { <expressionN> } ] }
-        # { field: { $nin: [ <value1>, <value2> ... <valueN> ]} }
-        # {"allergens":{'$nin':filters['exclude']}}
-        
-#         db.inventory.find( {
-#         $and : [
-#         { $or : [ { price : 0.99 }, { price : 1.99 } ] },
-#         { $or : [ { sale : true }, { qty : { $lt : 20 } } ] }
-#     ]
-# } )
-    
     if findParams and filters['exclude']:
         recipes_all = mongo.db.recipes.find({'$and':[findParams,excludeParams]}).sort(sortField,sortOrder)
     
@@ -267,9 +253,9 @@ def update_recipe(recipe_id):
   
   
     if request.form.get('submit') == 'submit':
-        recipes=mongo.db.recipes
         if request.form["image"]=="":
             request.form["image"]="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
+        recipes=mongo.db.recipes
         recipes.update_one({'_id': ObjectId(recipe_id)},{"$set":recipes_dict})   
         
         return redirect(url_for('my_recipes'))
@@ -363,18 +349,44 @@ def insert_recipe():
     recipes_dict["ingredients"]=items
     recipes_dict["steps"]=form_steps
     recipes_dict["allergens"]=form_allergens
-    recipes_dict["views"]=0
     recipes_dict["user"]=session['user']
-    ts=datetime.datetime.utcnow()
-    recipes_dict["date"]= ts
+    # ts=datetime.datetime.utcnow()
+    # recipes_dict["date"]= ts
     
+   
     if request.form.get('submit') == 'submit':
-        recipes=mongo.db.recipes
+        
         
         if recipes_dict["image"]=="":
             recipes_dict["image"]="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
-            
-        recipes.insert_one(recipes_dict)
+        
+        #List of keys. Keys with no values will be appended
+        keys_list=[]
+        
+        # To get keys which having zero length value(checks only allergens, description and title):
+        keys_list = [key for key,val in recipes_dict.items() if not val]
+        #Chek ingredients and steps
+        keys_list_ingredients = [val for val in recipes_dict["ingredients"] if not val["units"] or not val["name"] or not val["qty"]]
+        keys_list_steps = [val for val in recipes_dict["steps"] if not val]
+        #If diet not in the recipes-dictionary-form
+        if 'diet' not in recipes_dict:
+            keys_list.append('diet')
+        #If diet not in the recipes-dictionary-form    
+        if 'cuisine' not in recipes_dict:
+            keys_list.append('cuisine')
+        #If ingredients and steps have missing values append to the array containing empy keys
+        if keys_list_ingredients:
+            keys_list.append('ingredients')
+        if keys_list_steps:
+            keys_list.append('steps')
+        if keys_list:
+            message="Please fill in the following data"
+        else:
+            recipes_dict["views"]=0
+            recipes=mongo.db.recipes
+            recipes.insert_one(recipes_dict)
+            flash('Your recipe was successfully added')
+            return redirect(url_for('index'))
         
     elif request.form.get('submit') == 'add_step':
         # add step
@@ -388,7 +400,7 @@ def insert_recipe():
  
     return render_template('add_recipe.html', steps=steps, form_steps=form_steps, recipes_dict=recipes_dict,
     ingredients=ingredients,units=units_list,_cuisine=cuisine_list, _diet=diet_list,
-    _allergens=allergens_list,form_allergens=form_allergens )    
+    _allergens=allergens_list,form_allergens=form_allergens,message=message,keys_list=keys_list )    
     
 
 if __name__=="__main__":
