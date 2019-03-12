@@ -5,11 +5,26 @@ html,body{
 body{
     display: flex;
     flex-direction:column;
+    background-color: #EFD6AC;
 }
 
 /*.custom-select{*/
 /*    width:auto;*/
 /*}*/
+
+.section__banner{
+    background-color: #fafafa;
+    border: solid 15px #fafafa;
+    border-radius: 20px;
+}
+
+.section__heading--pink{
+    color:#D33F49;
+}
+
+.section__heading--darkgreen{
+    color:#262730;
+}
 
 .container--flex{
     flex:1 0 auto;
@@ -24,6 +39,12 @@ body{
     flex-shrink:0;
 }
 
+.footer,
+.navbar{
+    background-color: #26100A;
+    color:#fafafa;
+}
+
 .navbar-brand{
   transform: translateX(-50%);
   left: 50%;
@@ -32,6 +53,7 @@ body{
 
 .img-container{
     overflow: hidden;
+    border: 5px solid #fafafa;
 }
 
 .list-group-item{

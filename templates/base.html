@@ -15,7 +15,7 @@
 
 <body>
     <!--NAVIGATION--->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
         <a class="navbar-brand" href="{{url_for('home')}}">Cook Book</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -39,7 +39,7 @@
             </ul>
             <form method="GET" action="{{url_for('recipes')}}" class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="Search" aria-label="Search" value="{{keyword if keyword }}">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
     </nav>
@@ -49,7 +49,7 @@
         {%endif%}
         {% block content %} {% endblock %}
     </div>
-    <footer class="footer text-center">
+    <footer class="footer text-center mt-5">
         <h4> Cook Book - Milestone Project</h4>
     </footer>
     </div>
