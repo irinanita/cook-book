@@ -3,3 +3,6 @@ This project is a Cooking Book.
 
 # Technologies
 [Bootstrap-select] (https://developer.snapappointments.com/bootstrap-select/) 
+
+# Colour Palette
+[Coloors](https://coolors.co/efd6ac-d33f49-26100a-77ba99-262730)

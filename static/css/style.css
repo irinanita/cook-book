@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Caveat:400,700|Montserrat:300,400,600,700');
+
 html,body{
     height:100%;
 }
@@ -6,11 +8,25 @@ body{
     display: flex;
     flex-direction:column;
     background-color: #EFD6AC;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
 }
 
 /*.custom-select{*/
 /*    width:auto;*/
 /*}*/
+
+h3{
+    font-size: 2.75rem;
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+}
+
+.navbar-brand{
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 30px;
+}
 
 .section__banner{
     background-color: #fafafa;
@@ -24,6 +40,10 @@ body{
 
 .section__heading--darkgreen{
     color:#262730;
+}
+
+.section__paragraph{
+    line-height: 1.7;
 }
 
 .container--flex{
@@ -45,15 +65,48 @@ body{
     color:#fafafa;
 }
 
+a:hover{
+    text-decoration: none;
+}
 .navbar-brand{
   transform: translateX(-50%);
   left: 50%;
   position: absolute;
 }
 
+.navbar-dark .navbar-nav .nav-link:hover {
+    color:#fafafa;
+}
+
+
+.form-control-sm{
+    border-radius: .5rem;
+}
+
+.btn-sm{
+    border-radius: .5rem;
+}
+
+.btn-sm:hover{
+    background-color: #d33f49;
+    border-color: #d33f49;
+}
+
 .img-container{
     overflow: hidden;
-    border: 5px solid #fafafa;
+    border: 10px solid #fafafa;
+}
+
+.text-reset{
+    text-align: center;
+}
+.recipe-card{
+    background-color: #fafafa;
+    padding:5px;
+}
+
+.recipe-card:hover{
+    color:#D33F49;;
 }
 
 .list-group-item{

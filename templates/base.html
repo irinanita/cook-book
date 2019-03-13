@@ -38,8 +38,8 @@
                 </li>
             </ul>
             <form method="GET" action="{{url_for('recipes')}}" class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2" name="keyword" type="search" placeholder="Search" aria-label="Search" value="{{keyword if keyword }}">
-                <button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                <input class="form-control-sm  mr-sm-2" name="keyword" type="search" placeholder="Search" aria-label="Search" value="{{keyword if keyword }}">
+                <button class="btn btn-outline-light btn-sm my-2 my-sm-0" type="submit">Search</button>
             </form>
         </div>
     </nav>
@@ -49,8 +49,8 @@
         {%endif%}
         {% block content %} {% endblock %}
     </div>
-    <footer class="footer text-center mt-5">
-        <h4> Cook Book - Milestone Project</h4>
+    <footer class="footer text-center mt-5 p-2">
+        <h5> Cook Book - Milestone Project</h5>
     </footer>
     </div>
     <!--Bootstrap JQuery and JS --->

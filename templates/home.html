@@ -11,14 +11,14 @@
 </div>
 </section>
 <section class="mt-5">
-<h3 class="section__heading--darkgreen">Latest Recipes</h3>
+<h3 class="section__heading--darkgreen text-center">Latest Recipes</h3>
 <div class="row">
     {% for recipe in recipes %}
     <div class="col-md-6 col-lg-3">
         <a class="text-reset" href="{{url_for('view_recipe',recipe_id=recipe._id)}}">
             <div class="img-container" style="background-image: url({{recipe['image']}}); background-size: cover; padding-top: 60%;"> </div>
-        <h5>{{recipe['title']}}</h5>
-       {{recipe._id.generation_time}}
+        <h6 class="recipe-card">{{recipe['title']}}</h6>
+       <!--{{recipe._id.generation_time}}-->
         </a>
     </div>    
     {%endfor%}
