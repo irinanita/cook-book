@@ -1,21 +1,19 @@
 {%extends 'base.html'%}{%block content%}
-<h2 class="text-center">Recipes</h2>
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
+<h3 class="section__heading--darkgreen text-center mt-3">Recipes</h3>
+{% with messages = get_flashed_messages() %} {% if messages %}
+<ul class=flashes>
     {% for message in messages %}
-      <li>{{ message }}</li>
+    <li>{{ message }}</li>
     {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-<p>Total Recipes: {{recipes_count}}</p>
-<div class="mt-5">
+</ul>
+{% endif %} {% endwith %}
+<div class="mt-4">
+    <p>Total Recipes: {{recipes_count}}</p>
     <form action="{{url_for('recipes')}}" method="GET">
-        <input  type="hidden" name="keyword" value="{{keyword if keyword}}" />
+        <input type="hidden" name="keyword" value="{{keyword if keyword}}" />
         <div class="form-row">
             <div class="form-group col-12 col-md-4">
-                <label for="browse">Select diet OR cuisine</label>
+                <label for="browse">Select diet <span class="fw-600">OR</span> cuisine</label>
                 <select class="form-control selectpicker" name="browse" id="browse">
                     <option disabled selected>Browse</option>
                     <optgroup label="Diet">
@@ -42,8 +40,8 @@
                 </select>
             </div>
             <div class="form-group col-12 col-md-4 ">
-                <label for="exclude_allergy">EXCLUDE Allergens</label>
-                <select class="selectpicker form-control" data-style ="btn-light btn-new" name="exclude_allergy[]" multiple>
+                <label for="exclude_allergy"><span class="fw-600">EXCLUDE </span> Allergens</label>
+                <select class="selectpicker form-control" data-style="btn-light btn-new" name="exclude_allergy[]" multiple>
                     {%for allergen in _allergens%}
                     {%if allergen.allergen_type != "none"%}
                         <option {{"selected" if ('exclude' in filters) and (allergen.allergen_type in filters['exclude'])}}>{{allergen.allergen_type}}</option>
@@ -52,52 +50,53 @@
                 </select>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary" name="submit">Apply</button>
+        <div class="clearfix">
+            <button type="submit" class="btn btn-primary float-right" name="submit">Apply</button>
+        </div>
     </form>
 </div>
 
-<div class="row mt-3">
-    {% for recipe in recipes %} {% if loop.index0 < page_size %} 
-    <div class="col-md-6 col-lg-3">
+<div class="row mt-4">
+    {% for recipe in recipes %} {% if loop.index0 < page_size %} <div class="col-md-6 col-lg-3 mt-3">
+        <span class="recipe-tab">{{recipe._id.generation_time.strftime("%d %b %Y, %H:%M")}}</span>
         <a class="text-reset" href="{{url_for('view_recipe',recipe_id=recipe._id)}}">
             <div class="img-container" style="background-image: url({{recipe['image']}}); background-size: cover; padding-top: 60%;"> </div>
-            <h5>{{recipe['title']}}</h5>
-            {{recipe._id.generation_time.strftime("%d %b %Y, %H:%M")}}
+            <h6 class="recipe-card">{{recipe['title']}}</h6>
         </a>
-    </div>
+</div>
 {% endif %} {%endfor%}
 </div>
-<div class="row mt-4 clearfix">
+<div class="row mt-4">
     {% if page >1 %}
-    <div class="col float-left">
+    <div class="col">
         <form action="{{url_for('recipes',page=page-1)}}" method="GET">
             {%if keyword %}
             <input type="hidden" name="keyword" value="{{keyword}}" /> {%endif%} {%if 'browse' in filters%}
             <input type="hidden" value="{{filters['browse']}}" name="browse"> {%endif%} {%if 'sort' in filters%}
             <input type="hidden" value="{{filters['sort']}}" name="sort"> {%endif%}
 
-            <div class="col">
-                <button type="submit" class="btn btn-primary" name="submit" value="previous-page">Previous Page</button>
+            <div class="col clearfix">
+                <button type="submit" class="btn btn-primary float-left" name="submit" value="previous-page">Previous Page</button>
             </div>
         </form>
     </div>
-    {% endif%}
+    {% endif%} {% if recipes_length > page_size %}
     <div class="col">
-        Current Page:{{page}}
-    </div>
-    {% if recipes_length > page_size %}
-    <div class="col float-right">
         <form action="{{url_for('recipes',page=page+1)}}" method="GET">
             {%if keyword %}
             <input type="hidden" name="keyword" value="{{keyword}}" /> {%endif%} {%if 'browse' in filters%}
             <input type="hidden" value="{{filters['browse']}}" name="browse"> {%endif%} {%if 'sort' in filters%}
             <input type="hidden" value="{{filters['sort']}}" name="sort"> {%endif%}
 
-            <div class="col">
-                <button type="submit" class="btn btn-primary" name="submit" value="next-page">Next Page</button>
+            <div class="col clearfix">
+                <button type="submit" class="btn btn-primary float-right" name="submit" value="next-page">Next Page</button>
             </div>
         </form>
     </div>
     {%endif%}
 </div>
+<div class="col text-center fw-600">
+    Current Page: {{page}}
+</div>
+
 {%endblock%}

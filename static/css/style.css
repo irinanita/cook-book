@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Caveat:400,700|Montserrat:300,400,600,700');
 
+.fw-600{
+    font-weight: 600;
+}
+
 html,body{
     height:100%;
 }
@@ -16,10 +20,20 @@ body{
 /*    width:auto;*/
 /*}*/
 
-h3{
+h3,h2{
     font-size: 2.75rem;
     font-family: 'Caveat', cursive;
     font-weight: 700;
+}
+
+label{
+    font-weight: 400;
+    color: #262730;
+}
+
+.dropdown-item.active, .dropdown-item:active {
+      
+    background-color: #D33F49;
 }
 
 .navbar-brand{
@@ -87,6 +101,17 @@ a:hover{
     border-radius: .5rem;
 }
 
+.btn-primary{
+     border-radius: .6rem;
+     background-color:#561D25;
+     border-color:transparent;
+}
+
+.btn-primary:hover{
+    background-color: #D33F49;
+    border-color: transparent;
+}
+
 .btn-sm:hover{
     background-color: #d33f49;
     border-color: #d33f49;
@@ -109,6 +134,19 @@ a:hover{
     color:#D33F49;;
 }
 
+.recipe-tab{
+    width: fit-content;
+    background-color: #fafafa;
+    padding:3px;
+    font-size: 0.8rem;
+    background-color: #561D25;
+    color:white;
+}
+
 .list-group-item{
     border-color:transparent;
+}
+
+.selectpicker:hover{
+    background-color: red;
 }
