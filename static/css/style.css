@@ -82,6 +82,15 @@ label{
 a:hover{
     text-decoration: none;
 }
+
+.new-user{
+    color:#561D25;
+}
+
+.new-user:hover{
+    color:#D33F49;
+}
+
 .navbar-brand{
   transform: translateX(-50%);
   left: 50%;
@@ -93,6 +102,7 @@ a:hover{
 }
 
 
+.form-control,
 .form-control-sm{
     border-radius: .5rem;
 }
@@ -137,7 +147,7 @@ a:hover{
 .recipe-tab{
     width: fit-content;
     background-color: #fafafa;
-    padding:3px;
+    padding:3px 5px;
     font-size: 0.8rem;
     background-color: #561D25;
     color:white;
@@ -149,4 +159,9 @@ a:hover{
 
 .selectpicker:hover{
     background-color: red;
+}
+
+.form--login{
+    width:70%;
+    margin:0 auto;
 }
