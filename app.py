@@ -328,6 +328,9 @@ def insert_recipe():
     if session.get('logged_in') is None:
         flash("In order to use the cook book please login")
         return redirect(url_for('autentication')) 
+    
+    message=""
+    keys_list=[]
     _units=mongo.db.units.find()
     units_list=[unit for unit in _units]
     
@@ -381,9 +384,6 @@ def insert_recipe():
         
         if recipes_dict["image"]=="":
             recipes_dict["image"]="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
-        
-        #List of keys. Keys with no values will be appended
-        keys_list=[]
         
         # To get keys which having zero length value(checks only allergens, description and title):
         keys_list = [key for key,val in recipes_dict.items() if not val]

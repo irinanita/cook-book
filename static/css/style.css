@@ -1,7 +1,11 @@
-@import url('https://fonts.googleapis.com/css?family=Caveat:400,700|Montserrat:300,400,600,700');
+@import url('https://fonts.googleapis.com/css?family=Caveat:400,700|Montserrat:300,400,600');
 
 .fw-600{
     font-weight: 600;
+}
+
+.font-075{
+    font-size: 0.75rem;
 }
 
 html,body{
@@ -20,8 +24,7 @@ body{
 /*    width:auto;*/
 /*}*/
 
-h3,h2{
-    font-size: 2.75rem;
+h2,h3,h4{
     font-family: 'Caveat', cursive;
     font-weight: 700;
 }
@@ -101,6 +104,9 @@ a:hover{
     color:#fafafa;
 }
 
+.nav-link.active{
+    font-weight: 600;
+}
 
 .form-control,
 .form-control-sm{
@@ -127,6 +133,19 @@ a:hover{
     border-color: #d33f49;
 }
 
+.btn-sm__edit{
+    background-color: #561D25;
+}
+
+.btn-outline-dark{
+    color:#262730;
+    border-color:#262730;
+    background-color: transparent;
+}
+
+.btn-submit-form{
+    background-color: #DF2935;
+}
 .img-container{
     overflow: hidden;
     border: 10px solid #fafafa;

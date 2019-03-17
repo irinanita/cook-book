@@ -26,10 +26,10 @@
                     <a class="nav-link" href="{{url_for('recipes')}}">Recipes</a>
                 </li>
                 {%if 'user' in session%}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('add_recipe')}}">Add Recipe</a>
-                    </li>
-                 {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('add_recipe')}}">Add Recipe</a>
+                </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('my_recipes')}}">My recipes</a>
                 </li>
@@ -45,9 +45,8 @@
     </nav>
     <div class="container container--flex ">
         {% if session['user']%}
-            <p>You're logged in as: {{session['user']}}</p>
-        {%endif%}
-        {% block content %} {% endblock %}
+        <p>You're logged in as: {{session['user']}}</p>
+        {%endif%} {% block content %} {% endblock %}
     </div>
     <footer class="footer text-center mt-5 p-2">
         <h5> Cook Book - Milestone Project</h5>
@@ -59,6 +58,15 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
     <!-- Latest compiled and minified JavaScript for Bootstrap Select -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("[href]").each(function() {
+                if (this.href == window.location.href) {
+                    $(this).addClass("active");
+                }
+            });
+        });
+    </script>
 
 </body>
 
