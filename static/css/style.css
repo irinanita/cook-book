@@ -55,6 +55,10 @@ label{
     color:#D33F49;
 }
 
+.section__heading--bordeaux{
+    color:#561D25;
+}
+
 .section__heading--darkgreen{
     color:#262730;
 }
@@ -106,6 +110,16 @@ a:hover{
 
 .nav-link.active{
     font-weight: 600;
+}
+
+.status-logged-in{
+    background-color:#D33F49;
+    color:#fafafa;
+    text-align: right;
+    padding-top: 5px;
+    padding-right: 15px;
+    /*line-height: 1rem;*/
+    font-size: 0.95rem;
 }
 
 .form-control,
@@ -174,6 +188,24 @@ a:hover{
 
 .list-group-item{
     border-color:transparent;
+}
+
+.steps-list,
+.description,
+.ingredients{
+    background-color: #fafafa;
+    border:solid 1px #561D25;
+    border-radius: 15px;
+}
+
+.steps-list-item{
+    display: list-item;
+}
+
+.ingredients-list-item{
+    border:none;
+    margin:0px;
+    padding: .55rem .75rem;
 }
 
 .selectpicker:hover{

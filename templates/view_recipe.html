@@ -1,41 +1,56 @@
 {% extends 'base.html' %} {%block content%}
-<h2 class="text-center">{{recipe.title}}</h2>
-<div class="row mt-5">
-    <div class="col-lg-4">
-        <h3>Ingredients <span class ="float-right"><i class="fas fa-eye"></i>{{views}}</span></h3>
-        {% for i in range(recipe.ingredients|count) %}
-        <ul class="list-group list-unstyled">
-            <li class="list-group-item">{{recipe.ingredients[i].name}} {{recipe.ingredients[i].qty}} {{recipe.ingredients[i].units}} </li>
-        </ul>
-        {%endfor%}
+<div class="row">
+    <div class="col-auto">
+        <h2 class="text-center">{{recipe.title}}
     </div>
-    <div class="col-lg-8">
-        <img class="img-fluid" alt="Tasty Food" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"></img>
+    <div class="col">
+        <span class="float-right"><i class="fas fa-eye"></i>{{views}}</span></h2>
     </div>
 </div>
-<section class="mt-5">
-    <h3 class="text-center">Description</h3>
-    <div class="row">
-    <div class="mx-auto mt-3">
-        <span class="font-weight-bold mr-1">Cuisine:</span> <span class="mr-4">{{recipe.cuisine}}</span> <span class="font-weight-bold mr-1">Diet:</span><span class="mr-4">{{recipe.diet }}</span>
-        <span class="font-weight-bold">Allergens:</span> {% for i in range(recipe.allergens|count) %}
-        <span class="mr-2">{{recipe.allergens[i]}}</span> {%endfor%}
+<!----------------------------------------------------------------INGREDIENTS-->
+<div class="row mt-4">
+    <div class="col-lg-4">
+        <div class="ingredients p-2">
+            <h3 class="mt-3 section__heading--bordeaux">Ingredients</h3>
+            <ul class="list-group">
+                {% for i in range(recipe.ingredients|count) %}
+                <li class="list-group-item ingredients-list-item">{{recipe.ingredients[i].name}} {{recipe.ingredients[i].qty}} {{recipe.ingredients[i].units}} </li>
+                {%endfor%}
+            </ul>
+        </div>
     </div>
+    <div class="col-lg-8">
+        <div class="mt-3 mt-md-0">
+            <img class="img-fluid" alt="Tasty Food" src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"></img>
+        </div>
+    </div>
+</div>
+<!----------------------------------------------------------------DESCRIPTION-->
+<section class="row mt-4">
+    <div class="mx-auto mt-3 col-12 text-center">
+        <div class="description p-2">
+            <h3 class="text-center section__heading--bordeaux mt-3">Description</h3>
+            <p class="text-center text-black-50 "><em>"{{recipe.description}}"</em></p>
+            <div class="mb-3">
+            <span class="font-weight-bold mr-1">Cuisine:</span> <span class="mr-4">{{recipe.cuisine}}</span> <span class="font-weight-bold mr-1">Diet:</span><span class="mr-4">{{recipe.diet }}</span>
+            <span class="font-weight-bold">Allergens:</span> {% for i in range(recipe.allergens|count) %}
+            <span class="mr-2">{{recipe.allergens[i]}}</span> {%endfor%}
+            </div>
+        </div>
     </div>
 </section>
-
-{% if recipe.description %}
-<p class="text-center text-black-50 mt-5"><em>"{{recipe.description}}"</em></p>
-{%endif%}
-<section class="mt-5">
-    <h3 class="text-center">Steps</h3>
-    <div class="row">
-        <ul class="list-group list-unstyled">
-            {%for step in recipe.steps%}
-            <li class="list-group-item">{{step}}</li>
-            {%endfor%}
-        </ul>
+<!----------------------------------------------------------------------STEPS-->
+<section class="row mt-4">
+    <div class="col">
+        <div class="steps-list p-2">
+            <h3 class="text-center mt-3 section__heading--bordeaux">Steps</h3>
+            <ol class="list-group ml-3 p-3">
+                {%for step in recipe.steps%}
+                <li class="list-group-item steps-list-item">{{step}}</li>
+                {%endfor%}
+            </ol>
+        </div>
     </div>
 </section>
-<p class="mt-4"><span class="font-weight-bold mr-1">Added by:</span>{{recipe.user}}</p>
+<p class="mt-4 section__heading--bordeaux"><span class="fw-600 mr-1">Added by:</span>{{recipe.user}}</p>
 {%endblock%}
