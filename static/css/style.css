@@ -116,9 +116,7 @@ a:hover{
     background-color:#D33F49;
     color:#fafafa;
     text-align: right;
-    padding-top: 5px;
-    padding-right: 15px;
-    /*line-height: 1rem;*/
+    padding: 5px 15px;
     font-size: 0.95rem;
 }
 

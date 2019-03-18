@@ -210,7 +210,8 @@ def update_recipe(recipe_id):
     if session.get('logged_in') is None:
         flash("In order to use the cook book please login")
         return redirect(url_for('autentication')) 
-   
+    keys_list=[]
+    message=""
     recipe=mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})
     recipes_dict=request.form.to_dict()
     print(recipe['diet'],"recipe")
@@ -248,13 +249,11 @@ def update_recipe(recipe_id):
     recipes_dict["allergens"]=form_allergens
   
     if request.form.get('submit') == 'submit':
-        
+         #List of keys. Keys with no values will be appended
+       
         if request.form["image"]=="":
             request.form["image"]="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/1024px-Good_Food_Display_-_NCI_Visuals_Online.jpg"
-        
-         #List of keys. Keys with no values will be appended
-        keys_list=[]
-        
+
         # To get keys which having zero length value(checks only allergens, description and title):
         keys_list = [key for key,val in recipes_dict.items() if not val]
         #Chek ingredients and steps
