@@ -20,10 +20,6 @@ body{
     font-weight: 300;
 }
 
-/*.custom-select{*/
-/*    width:auto;*/
-/*}*/
-
 h2,h3,h4{
     font-family: 'Caveat', cursive;
     font-weight: 700;
@@ -158,6 +154,7 @@ a:hover{
 .btn-submit-form{
     background-color: #DF2935;
 }
+
 .img-container{
     overflow: hidden;
     border: 10px solid #fafafa;
@@ -213,4 +210,9 @@ a:hover{
 .form--login{
     width:70%;
     margin:0 auto;
+}
+
+.alert-danger{
+    background-color: #DF2935;
+    color:#fafafa;
 }

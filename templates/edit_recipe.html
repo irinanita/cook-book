@@ -4,15 +4,17 @@
 <p>Recipes Dict</p>
 {{recipes_dict}} {%else%}
 <p>Recipe</p>
-{{recipe}} {%endif%} {%if message%}
-<div>
-    <p class="text-danger">{{message}}</p>
+{{recipe}} {%endif%} 
+{%if message%}
+<div class="alert alert-danger" role="alert">
+ <p><i class="fas fa-exclamation mr-2"></i>{{message}}</p>
+ <hr>
     {%for key in keys_list%}
-    <ul>
-        <li>{{key}}</li>
-    </ul>
+       <span class="mr-2"><strong>{{key}}</strong></span>
     {%endfor%}
 </div>
+
+
 {%endif%}
 <form action="{{url_for('update_recipe',recipe_id=recipe._id)}}" method="POST">
     <!--TITLE-->
@@ -82,7 +84,7 @@
         <div class="col">
             {%if 'ingredients' in recipes_dict %}
             <label for="ingredient-quantity">Quantity</label>
-            <input type="number" step="0.01" class="form-control" value="{{recipes_dict['ingredients'][i]['qty'] if (recipes_dict['ingredients'][i])}}" name="ingredient-qty[]" placeholder="Qty"> {%elif 'ingredients' in recipe %}
+            <input type="number" step="0.01" min="0" class="form-control" value="{{recipes_dict['ingredients'][i]['qty'] if (recipes_dict['ingredients'][i])}}" name="ingredient-qty[]" placeholder="Qty"> {%elif 'ingredients' in recipe %}
             <label for="ingredient-quantity">Quantity</label>
             <input type="number" step="0.01" class="form-control" value="{{recipe['ingredients'][i]['qty'] if (recipe['ingredients'][i])}}" name="ingredient-qty[]" placeholder="Qty"> {%endif%}
         </div>

@@ -211,7 +211,6 @@ def update_recipe(recipe_id):
         flash("In order to use the cook book please login")
         return redirect(url_for('autentication')) 
     keys_list=[]
-    message=""
     recipe=mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})
     recipes_dict=request.form.to_dict()
     print(recipe['diet'],"recipe")
@@ -401,7 +400,7 @@ def insert_recipe():
         if keys_list_steps:
             keys_list.append('steps')
         if keys_list:
-            message="Please fill in the following data"
+            message="Please fill in the following data:"
         else:
             recipes_dict["views"]=0
             recipes=mongo.db.recipes

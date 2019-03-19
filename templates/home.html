@@ -17,7 +17,7 @@
     <div class="col-md-6 col-lg-3">
         <a class="text-reset" href="{{url_for('view_recipe',recipe_id=recipe._id)}}">
             <div class="img-container" style="background-image: url({{recipe['image']}}); background-size: cover; padding-top: 60%;"> </div>
-        <h6 class="recipe-card">{{recipe['title']}}</h6>
+        <h6 class="recipe-card text-truncate">{{recipe['title']}}</h6>
        <!--{{recipe._id.generation_time}}-->
         </a>
     </div>    
