@@ -212,7 +212,32 @@ a:hover{
     margin:0 auto;
 }
 
+.alert{
+    border:transparent;
+}
+
 .alert-danger{
-    background-color: #DF2935;
-    color:#fafafa;
+    background-color: #fafafa;
+    color:#262730;
+    border-left:5px solid #DF2935;
+}
+
+.alert-danger i{
+    color:#D33F49;
+}
+
+.alert-success{
+    background-color: #fafafa;
+    color:#262730;
+    border-left:5px solid green;
+}
+
+.alert-success i{
+    color: green;
+}
+
+.alert-info{
+    background-color: #fafafa;
+    color:#262730;
+    border-left:5px solid #561D25;
 }

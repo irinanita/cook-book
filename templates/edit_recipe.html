@@ -116,9 +116,9 @@
     <div class="form-group">
         {%if 'steps' in recipes_dict%}
         <label for="step">Step {{i+1}}</label>
-        <textarea class="form-control" name="steps" rows="1">{{recipes_dict['steps'][i] if recipes_dict['steps'][i]}}</textarea> {%elif 'steps' in recipe %}
+        <textarea class="form-control"  name="steps" rows="2">{{recipes_dict['steps'][i] if recipes_dict['steps'][i]}}</textarea> {%elif 'steps' in recipe %}
         <label for="step">Step {{i+1}}</label>
-        <textarea class="form-control" name="steps" rows="1">{{recipe['steps'][i] if recipe['steps'][i]}}</textarea> {%endif%}
+        <textarea class="form-control"  name="steps" rows="2">{{recipe['steps'][i] if recipe['steps'][i]}}</textarea> {%endif%}
     </div>
     {%endfor%}
     <div class="form-group mt-3 clearfix">

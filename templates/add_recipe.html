@@ -85,7 +85,7 @@
     {% for i in range(steps)%}
     <div class="form-group">
         <label for="step">Step {{i+1}}</label>
-        <textarea class="form-control" name="steps" rows="1">{{recipes_dict['steps'][i] if (('steps' in recipes_dict) and (recipes_dict['steps'][i]))}}</textarea>
+        <textarea class="form-control" name="steps" rows="2">{{recipes_dict['steps'][i] if (('steps' in recipes_dict) and (recipes_dict['steps'][i]))}}</textarea>
     </div>
     {%endfor%}
     <div class="form-group clearfix mt-3">

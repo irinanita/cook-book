@@ -29,12 +29,18 @@ def login():
     users=mongo.db.users
     username=request.form['user']
     user=users.find_one({"user":username})
-    password=user['password']
-    if request.form['password']==password:
-        session['user']=username
-        session['logged_in']=True
-        return redirect(url_for('home'))    
-    return redirect(url_for('login.html'))
+    if user:
+        password=user['password']
+        if request.form['password']==password:
+            session['user']=username
+            session['logged_in']=True
+            return redirect(url_for('home'))
+        else:
+            flash('Wrong password')    
+            return redirect(url_for('autentication'))
+    else:        
+        flash('Wrong username and/or password')    
+        return redirect(url_for('autentication'))
 
 @app.route('/new_user')
 def new_user():
@@ -46,13 +52,13 @@ def register():
     users=mongo.db.users
     username=request.form['user']
     if users.find_one({"user":username}):
-        message="User already exists, please pick another username"
-        return render_template('new_user.html',message=message)
+        flash('Username already taken')
+        return redirect(url_for('new_user'))
     else:    
         user["user"]=username
         user["password"]=request.form['password']
         users.insert_one(user)
-        flash('User created successfully.Please login.')
+        flash('User created successfully. You can now login.')
         return redirect(url_for('autentication'))
     
 @app.route('/view_recipe/<recipe_id>')
