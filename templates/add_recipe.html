@@ -16,7 +16,7 @@
             <label for="title">Title</label>
             <input type="text" class="form-control" value="{{recipes_dict.title}}" name="title" id="title" placeholder="Recipe Name">
         </div>
-        <!--DIET-->
+        <!---------------------------------------------------------------DIET-->
         <div class="form-group col-12 col-md-4">
             <label for="diet">Choose Diet</label>
             <select class="form-control custom-select " name="diet" id="diet">
@@ -26,7 +26,7 @@
                 {% endfor %}
             </select>
         </div>
-        <!--CUISINE-->
+        <!------------------------------------------------------------CUISINE-->
         <div class="form-group col-12 col-md-4">
             <label for="cuisine">Cuisine</label>
             <select class="form-control custom-select " name="cuisine" id="cuisine">
@@ -94,10 +94,14 @@
         <button type="submit" class="btn btn-primary btn-outline-dark" name="submit" value="delete_step"><i class="fas fa-minus mr-2"></i>Delete</button>
         </div>
     </div>
+    <!------------------------------------------------------------------IMAGE-->
     <h3>Image<span class="text-muted"><small>(insert a valid link)</small></span></h3>
     <div class="row form-group">
         <div class="col">
             <input type="url" class="form-control" value="{% if ('image' in recipes_dict) %} {{recipes_dict['image']}} {%endif%}" name="image">
+             <small class="form-text text-muted">
+                If you leave this field blank a default image will be used automatically
+            </small>
         </div>
     </div>
     <div class="form-group clearfix">

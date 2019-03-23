@@ -80,7 +80,8 @@
             </div>
         </form>
     </div>
-    {% endif%} {% if recipes_length > page_size %}
+    {% endif%} 
+    {% if recipes_length > page_size %}
     <div class="col">
         <form action="{{url_for('recipes',page=page+1)}}" method="GET">
             {%if keyword %}

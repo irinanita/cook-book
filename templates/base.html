@@ -34,9 +34,7 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('my_recipes')}}">My recipes</a>
                 </li>
-                <li class="nav-item float">
-                    <a class="nav-link" href="{{url_for('autentication')}}">{{"Log Out" if 'user' in session else "Log In"}}</a>
-                </li>
+
             </ul>
             <form method="GET" action="{{url_for('recipes')}}" class="form-inline my-2 my-lg-0">
                 <input class="form-control-sm  mr-2" name="keyword" type="search" placeholder="Search" aria-label="Search" value="{{keyword if keyword }}">
@@ -45,16 +43,18 @@
            </div>
            
     </nav>
-     {% if session['user']%}
-     
      <div class=" container-fluid">
-         <div class=" row  mb-4">
-        <div class=" col status-logged-in">
-            <span>You're logged in as: <span class="fw-600">{{session['user']}}</span></span>
+        <div class=" row  status-logged-in mb-3">
+            <div class=" col">
+                 {% if session['user']%}
+                    <span class="mr-1">Hi,</span><span class="section__heading--pink mr-3"><strong>{{session['user']}}</strong></span><a class="text-muted" href="{{url_for('autentication')}}"><i class="fas fa-sign-out-alt"></i>Log Out</a></span>
+                 {%else%}
+                    <span><a href="{{url_for('autentication')}}" class="text-success"><i class="fas fa-sign-in-alt mr-2"></i>Log In</a></span>             
+                 {%endif%}
             </div>
         </div>
     </div>    
-        {%endif%}
+       
     <!---------------------------------------------------------MAIN CONTAINER-->
     <div class="container container--flex ">
         

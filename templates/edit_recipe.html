@@ -1,4 +1,5 @@
-{% extends 'base.html'%} {% block content %}
+{% extends 'base.html'%} 
+{% block content %}
 <h2>Edit Recipe</h2>
 {%if recipes_dict%}
 <p>Recipes Dict</p>
@@ -13,17 +14,15 @@
        <span class="mr-2"><strong>{{key}}</strong></span>
     {%endfor%}
 </div>
-
-
 {%endif%}
 <form action="{{url_for('update_recipe',recipe_id=recipe._id)}}" method="POST">
-    <!--TITLE-->
+    <!------------------------------------------------------------------TITLE-->
     <div class="form-row">
         <div class="form-group col">
             <label for="title">Title</label>
             <input type="text" class="form-control" value="{{recipes_dict.title if ('title' in recipes_dict) else (recipe.title)}}" name="title" id="title" placeholder="Recipe Name" required>
         </div>
-        <!--DIET-->
+        <!---------------------------------------------------------------DIET-->
         <div class="form-group col">
             <label for="diet">Diet</label>
             <select class="form-control custom-select" name="diet" id="diet">
@@ -36,7 +35,7 @@
                 {% endfor %}
             </select>
         </div>
-        <!--CUISINE-->
+        <!------------------------------------------------------------CUISINE-->
         <div class="form-group col">
             <label for="cuisine">Cuisine</label>
             <select class="form-control custom-select" name="cuisine" id="cuisine">
@@ -50,7 +49,7 @@
             </select>
         </div>
     </div>
-    <!--ALLERGENS SECTION-->
+    <!------------------------------------------------------ALLERGENS SECTION-->
     <div class="form-group">
         <h3 class="mt-2">Allergens <span class="text-muted"><small>(check all that apply)</small></span></h3>
         {% for allergen in _allergens %}
@@ -63,14 +62,14 @@
         </div>
         {% endfor %}
     </div>
-    <!--SHORT DESCRIPTION-->
+    <!------------------------------------------------------SHORT DESCRIPTION-->
     <h3 mt-2>Description</h3>
     <div class="form-group">
         {%if 'description' in recipes_dict%}
         <textarea class="form-control" name="description" placeholder="Add a short description(max 50 characters)" maxlength=50 rows="2">{{recipes_dict['description'] if 'description' in recipes_dict}}</textarea> {%else%}
         <textarea class="form-control" name="description" placeholder="Add a short description(max 50 characters)" maxlength=50 rows="2">{{recipe.description if ('description' in recipe)}}</textarea> {%endif%}
     </div>
-    <!--INGREDIENTS SECTION-->
+    <!----------------------------------------------------INGREDIENTS SECTION-->
     <h3 class="text-center mt-2">Ingredients</h3>
     {% for i in range(ingredient_length) %}
     <div class="row form-group">
@@ -110,7 +109,7 @@
             {%endif%}
         </div>
     </div>
-    <!--STEPS-->
+    <!------------------------------------------------------------------STEPS-->
     <h3 class="text-center mt-2">Steps</h3>
     {% for i in range(steps_length)%}
     <div class="form-group">
@@ -129,14 +128,16 @@
             {%endif%}
         </div>
     </div>
+    <!------------------------------------------------------------------IMAGE-->
     <h3>Image<span class="text-muted"><small>(insert a valid link)</small></span></h3>
     <div class="row form-group">
         <div class="col">
             <input type="url" class="form-control" value="{{recipes_dict['image'] if 'image' in recipes_dict else recipe.image}}" name="image">
+            <small class="form-text text-muted">
+                If you leave this field blank a default image will be used automatically
+            </small>
         </div>
     </div>
-
     <button type="submit" class="btn btn-primary float-right btn-submit-form" name="submit" value="submit">Submit</button>
-
 </form>
 {% endblock %} {{recipes_dict}}
