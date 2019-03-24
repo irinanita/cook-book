@@ -117,7 +117,16 @@ the other fileds should maintain values from the database.
 Git and GitHub were use for version control. Commits where made at each important change, the goal was to keep them concise and relevant.
 
 ## Deployment
+* login into heroku `heroku login`
+* create a new empty app on Heroku as none was created before `heroku create` 
+* rename app `heroku apps:rename cook-book-project`
+Run from App's Root. The empty Heroku Git repository is automatically set as a remote for your local repository.
+Check `git remote -v`
 
+* create a Procfile (instruction to Heroku as which file should be used as entry point to our app).
+The Procfile must live in your app’s root directory.
+* create a requirments.txt file `pip freeze > requirements.txt`  `sudo pip3 freeze --local > requirements.txt`
+* to deploy `git push heroku master`
 Deployed using Heroku
 
 
