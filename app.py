@@ -12,12 +12,12 @@ app.config["MONGO_URI"]="mongodb://admin:ceckbrb05@ds121295.mlab.com:21295/cook_
 
 mongo=PyMongo(app)
 
-@app.route('/', methods=['GET','POST'])
+@app.route('/')
 def home():
     recipes=mongo.db.recipes.find().sort('_id', -1).limit(4) #display the latest 4 recipes
     return render_template('home.html',recipes=recipes)
 
-@app.route('/autentication', methods=['GET','POST'])
+@app.route('/autentication')
 def autentication():
     # Release the session variables
     session.pop('logged_in', None)
@@ -79,6 +79,7 @@ def view_recipe(recipe_id):
 @app.route('/recipes/page/<page>')
 def recipes(page):
     filters={}
+    message=""
     #Allergens to exclude form the result
     if "exclude_allergy[]" in request.args:
         filters['exclude']=request.args.getlist('exclude_allergy[]')
@@ -144,7 +145,11 @@ def recipes(page):
     
     page_size=8 #set how many recipes per page
     recipes_total= recipes_all.count() #display number of total recipes
-   
+    
+    #If there are no recipes display the following message
+    if recipes_total==0:
+        message = "No recipes were found for the search criteria. Try applying different filters"
+       
     page=int(page)
     skips = page_size * (int(page) - 1) #page 1 will have NO skip applied
     '''
@@ -165,7 +170,8 @@ def recipes(page):
     allergens_list=[allergen for allergen in _allergens_list]
     
     return render_template('recipes.html',page=page,recipes=recipes,recipes_count=recipes_total,
-    _diet=diet_list,_cuisine=cuisine_list,_allergens=allergens_list,filters=filters,page_size=page_size,recipes_length=recipes_length,keyword=keyword)
+    _diet=diet_list,_cuisine=cuisine_list,_allergens=allergens_list,filters=filters,
+    page_size=page_size,recipes_length=recipes_length,keyword=keyword,message=message)
 
 
 #User can view his/her own recipes/cookbook
@@ -182,6 +188,10 @@ def my_recipes(page):
     #Display ONLY user's recipes
     recipes_total_user= mongo.db.recipes.find({ 'user': user  }).sort('_id', -1)
     recipes_total_count=recipes_total_user.count()
+    #If there are no recipes to display, how this message
+    message=""
+    if recipes_total_count==0:
+        message="You don't have any recipes yet"
     
     #Same logic as in Recipes
     page_size=8
@@ -190,7 +200,8 @@ def my_recipes(page):
     recipes_per_page=recipes_total_user.skip(skips).limit(page_size + 1)
     recipes_length=recipes_per_page.count(True)
     
-    return render_template('my_recipes.html',recipes=recipes_per_page,page_size=page_size,page=page,recipes_length=recipes_length,total_recipes=recipes_total_count)
+    return render_template('my_recipes.html',recipes=recipes_per_page,page_size=page_size,page=page,
+            recipes_length=recipes_length,total_recipes=recipes_total_count,message=message)
 
 #User cand delete ONLY own recipes   
 @app.route('/delete_recipe/<recipe_id>')
@@ -413,9 +424,8 @@ def insert_recipe():
     
     recipes_dict["ingredients"]=items
     recipes_dict["steps"]=form_steps
-    recipes_dict["allergens"]=form_allergens
     recipes_dict["user"]=session['user']
- 
+  
     if request.form.get('submit') == 'submit':
         
         if recipes_dict["image"]=="":

@@ -50,7 +50,7 @@
     <!------------------------------------------------------SHORT DESCRIPTION-->
     <h3 mt-2>Description</h3>
     <div class="form-group">
-        <textarea class="form-control" name="description" placeholder="Add a short description(max 50 characters)" maxlength=50 rows="2">{{recipes_dict['description'] if ('description' in recipes_dict)}}</textarea>
+        <textarea class="form-control" name="description" placeholder="Add a short description(max 100 characters)" maxlength=100 rows="2">{{recipes_dict['description'] if ('description' in recipes_dict)}}</textarea>
     </div>
     <!----------------------------------------------------INGREDIENTS SECTION-->
     <h3 class="text-center mt-2">Ingredients</h3>
@@ -108,4 +108,4 @@
         <button type="submit" class="btn btn-primary float-right btn-submit-form" name="submit" value="submit">Submit</button>
     </div>
 </form>
-{{recipes_dict}} {% endblock %}
+{% endblock %}

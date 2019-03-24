@@ -4,22 +4,22 @@
         <h2 class="text-center">{{recipe.title}}
     </div>
     <div class="col">
-        <span class="float-right"><i class="fas fa-eye mr-2"></i>{{views}}</span></h2>
+        <span class="float-right"><i class="fas fa-eye mr-3"></i>{{views}}</span></h2>
     </div>
 </div>
 <!----------------------------------------------------------------INGREDIENTS-->
 <div class="row mt-4">
-    <div class="col-lg-4">
+    <div class="col-auto">
         <div class="ingredients p-2">
             <h3 class="mt-3 section__heading--bordeaux">Ingredients</h3>
             <ul class="list-group">
                 {% for i in range(recipe.ingredients|count) %}
-                <li class="list-group-item ingredients-list-item">{{recipe.ingredients[i].name}} {{recipe.ingredients[i].qty}} {{recipe.ingredients[i].units}} </li>
+                <li class="list-group-item ingredients-list-item text-lowercase">{{recipe.ingredients[i].name}}<strong class="ml-1">{{recipe.ingredients[i].qty}} {{recipe.ingredients[i].units}}</strong> </li>
                 {%endfor%}
             </ul>
         </div>
     </div>
-    <div class="col-lg-8">
+    <div class="col">
         <div class="mt-3 mt-md-0">
           <div class="img-container mt-2 mt-lg-auto" style="background-image: url({{recipe.image}}); background-size: cover; padding-top: 60%;"></div>
         </div>

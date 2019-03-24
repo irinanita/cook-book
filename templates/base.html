@@ -24,7 +24,7 @@
         
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('recipes')}}">Recipes</a>
+                    <a class="nav-link" href="{{url_for('recipes')}}">All Recipes</a>
                 </li>
                 {%if 'user' in session%}
                 <li class="nav-item">
@@ -32,7 +32,7 @@
                 </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{url_for('my_recipes')}}">My recipes</a>
+                    <a class="nav-link" href="{{url_for('my_recipes')}}">My Cooking Book</a>
                 </li>
 
             </ul>
@@ -49,7 +49,7 @@
                  {% if session['user']%}
                     <span class="mr-1">Hi,</span><span class="section__heading--pink mr-3"><strong>{{session['user']}}</strong></span><a class="text-muted" href="{{url_for('autentication')}}"><i class="fas fa-sign-out-alt"></i>Log Out</a></span>
                  {%else%}
-                    <span><a href="{{url_for('autentication')}}" class="text-success"><i class="fas fa-sign-in-alt mr-2"></i>Log In</a></span>             
+                    <span><a href="{{url_for('autentication')}}" class="text-success"><i class="fas fa-sign-in-alt mr-2"></i>Log In / Register</a></span>             
                  {%endif%}
             </div>
         </div>
@@ -70,6 +70,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
     <!-- Latest compiled and minified JavaScript for Bootstrap Select -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+    <!--Script to Highlight the website page that is currently active-->
     <script>
         $(document).ready(function() {
             $("[href]").each(function() {
