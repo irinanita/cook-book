@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Caveat:400,700|Montserrat:300,400,600');
 
+/**********UTILITIES********/
+
 .fw-600{
     font-weight: 600;
 }
@@ -7,6 +9,8 @@
 .font-075{
     font-size: 0.75rem;
 }
+
+/*GENERAL*/
 
 html,body{
     height:100%;
@@ -30,90 +34,8 @@ label{
     color: #262730;
 }
 
-.dropdown-item.active, .dropdown-item:active {
-      
-    background-color: #D33F49;
-}
-
-.navbar-brand{
-    font-family: 'Caveat', cursive;
-    font-weight: 700;
-    font-size: 30px;
-}
-
-.section__banner{
-    background-color: #fafafa;
-    border: solid 15px #fafafa;
-    border-radius: 20px;
-}
-
-.section__heading--pink{
-    color:#D33F49;
-}
-
-.section__heading--bordeaux{
-    color:#561D25;
-}
-
-.section__heading--darkgreen{
-    color:#262730;
-}
-
-.section__paragraph{
-    line-height: 1.7;
-}
-
-.container--flex{
-    flex:1 0 auto;
-}
-
-.bootstrap-select>.dropdown-toggle.bs-placeholder{
-    color:#212529;
-}
-
-.footer,
-.navbar-expand-lg{
-    flex-shrink:0;
-}
-
-.footer,
-.navbar{
-    background-color: #26100A;
-    color:#fafafa;
-}
-
 a:hover{
     text-decoration: none;
-}
-
-.new-user{
-    color:#561D25;
-}
-
-.new-user:hover{
-    color:#D33F49;
-}
-
-.navbar-brand{
-  transform: translateX(-50%);
-  left: 50%;
-  position: absolute;
-}
-
-.navbar-dark .navbar-nav .nav-link:hover {
-    color:#fafafa;
-}
-
-.nav-link.active{
-    font-weight: 600;
-}
-
-.status-logged-in{
-    background-color:#fafafa;
-    color:#262730;
-    text-align: right;
-    padding: 5px 15px;
-    font-size: 0.95rem;
 }
 
 .form-control,
@@ -121,6 +43,11 @@ a:hover{
     border-radius: .5rem;
 }
 
+.text-reset{
+    text-align: center;
+}
+
+/***********BUTTONS*********/
 .btn-sm{
     border-radius: .5rem;
 }
@@ -155,14 +82,115 @@ a:hover{
     background-color: #DF2935;
 }
 
+/************NAVBAR************/
+
+.dropdown-item.active, .dropdown-item:active {
+    background-color: #D33F49;
+}
+
+.navbar-brand{
+    font-family: 'Caveat', cursive;
+    font-weight: 700;
+    font-size: 30px;
+}
+
+.navbar-brand{
+  transform: translateX(-50%);
+  left: 50%;
+  position: absolute;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+    color:#fafafa;
+}
+
+.nav-link.active{
+    font-weight: 600;
+}
+
+
+/**************SECTION*********/
+
+.section__banner{
+    background-color: #fafafa;
+    border: solid 15px #fafafa;
+    border-radius: 20px;
+}
+
+.section__heading--pink{
+    color:#D33F49;
+}
+
+.section__heading--bordeaux{
+    color:#561D25;
+}
+
+.section__heading--darkgreen{
+    color:#262730;
+}
+
+.section__paragraph{
+    line-height: 1.7;
+}
+
+.container--flex{
+    flex:1 0 auto;
+}
+
+
+/*******************BOOTSTRAP MULTIPLE SELECT************/
+
+.bootstrap-select>.dropdown-toggle.bs-placeholder{
+    color:#212529;
+}
+
+.selectpicker:hover{
+    background-color: red;
+}
+
+/*********************NAVBAR & FOOTER******************/
+.footer,
+.navbar-expand-lg{
+    flex-shrink:0;
+}
+
+.footer,
+.navbar{
+    background-color: #26100A;
+    color:#fafafa;
+}
+
+/***************LOGIN & NEW USER*****************/
+.form--login{
+    width:70%;
+    margin:0 auto;
+}
+
+.new-user{
+    color:#561D25;
+}
+
+.new-user:hover{
+    color:#D33F49;
+}
+
+
+.status-logged-in{
+    background-color:#fafafa;
+    color:#262730;
+    text-align: right;
+    padding: 5px 15px;
+    font-size: 0.95rem;
+}
+
+
 .img-container{
     overflow: hidden;
     border: 10px solid #fafafa;
 }
 
-.text-reset{
-    text-align: center;
-}
+
+/****************RECIPE CARD**************/
 .recipe-card{
     background-color: #fafafa;
     padding:5px;
@@ -180,7 +208,7 @@ a:hover{
     background-color: #561D25;
     color:white;
 }
-
+/**************INGREDIENTS**************/
 .list-group-item{
     border-color:transparent;
 }
@@ -203,15 +231,8 @@ a:hover{
     padding: .55rem .75rem;
 }
 
-.selectpicker:hover{
-    background-color: red;
-}
 
-.form--login{
-    width:70%;
-    margin:0 auto;
-}
-
+/******************ALERT*********************/
 .alert{
     border:transparent;
 }
@@ -240,4 +261,16 @@ a:hover{
     background-color: #fafafa;
     color:#262730;
     border-left:5px solid #561D25;
+}
+
+
+@media only screen and (min-width: 1200px) {
+  .section__banner p{
+    margin-top: 50%;
+    transform: translateY(-50%);
+    line-height: 2;
+    }
+    .section__banner h3{
+    font-size:40px;
+    }
 }
