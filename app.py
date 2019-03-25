@@ -6,9 +6,9 @@ import datetime
 from bson.objectid import ObjectId
 
 app=Flask(__name__)
-app.secret_key = "thisaintnosecret"
+app.secret_key = os.getenv("SECRET_KEY")
 app.config["MONGO_DBNAME"]="cook_book"
-app.config["MONGO_URI"]="mongodb://admin:ceckbrb05@ds121295.mlab.com:21295/cook_book"
+app.config["MONGO_URI"]=os.getenv("MONGODB_URI")
 
 mongo=PyMongo(app)
 
