@@ -5,6 +5,7 @@ from bson.objectid import ObjectId
 import datetime
 from bson.objectid import ObjectId
 
+
 app=Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY")
 app.config["MONGO_DBNAME"]="cook_book"
@@ -260,6 +261,7 @@ def update_recipe(recipe_id):
         flash("In order to use the cook book please login")
         return redirect(url_for('autentication')) 
     
+    message=""
     keys_list=[] # This will be used to store the keys from empty fields
     #Get the recipe as is from DB
     recipe=mongo.db.recipes.find_one({"_id":ObjectId(recipe_id)})

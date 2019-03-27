@@ -14,6 +14,7 @@
 
 html,body{
     height:100%;
+
 }
 
 body{
@@ -22,6 +23,7 @@ body{
     background-color: #EFD6AC;
     font-family: 'Montserrat', sans-serif;
     font-weight: 300;
+  
 }
 
 h2,h3,h4{
@@ -33,6 +35,9 @@ label{
     font-weight: 400;
     color: #262730;
 }
+
+a:focus { outline: thin dotted; }
+
 
 a:hover{
     text-decoration: none;
@@ -52,18 +57,28 @@ a:hover{
     border-radius: .5rem;
 }
 
+.btn-sm:focus{
+     box-shadow: 0 0 0 0.1rem rgba(38,143,255,.3);
+}
+
 .btn-primary{
      border-radius: .6rem;
      background-color:#561D25;
      border-color:transparent;
 }
 
-.btn-primary:hover{
+.btn-primary:hover,
+.btn-primary:not(:disabled):not(.disabled):active{
     background-color: #D33F49;
     border-color: transparent;
 }
 
-.btn-sm:hover{
+.btn-primary:focus{
+    box-shadow: 0 0 0 0.1rem rgba(38,143,255,.3);
+}
+
+.btn-sm:hover,
+.btn-sm:active{
     background-color: #d33f49;
     border-color: #d33f49;
 }
@@ -231,6 +246,9 @@ a:hover{
     padding: .55rem .75rem;
 }
 
+.views{
+    font-size:25px;
+}
 
 /******************ALERT*********************/
 .alert{
@@ -263,6 +281,9 @@ a:hover{
     border-left:5px solid #561D25;
 }
 
+.text-succes{
+    color:#0d8228;
+}
 
 @media only screen and (min-width: 1200px) {
   .section__banner p{

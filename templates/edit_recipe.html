@@ -1,11 +1,6 @@
 {% extends 'base.html'%} 
 {% block content %}
 <h2>Edit Recipe</h2>
-{%if recipes_dict%}
-<p>Recipes Dict</p>
-{{recipes_dict}} {%else%}
-<p>Recipe</p>
-{{recipe}} {%endif%} 
 {%if message%}
 <div class="alert alert-danger" role="alert">
  <p><i class="fas fa-exclamation mr-2"></i>{{message}}</p>

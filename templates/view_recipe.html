@@ -1,20 +1,17 @@
 {% extends 'base.html' %} {%block content%}
 <div class="row">
     <div class="col-auto">
-        <h2 class="text-center">{{recipe.title}}
-    </div>
-    <div class="col">
-        <span class="float-right"><i class="fas fa-eye mr-3"></i>{{views}}</span></h2>
+        <h2 class="text-center">{{recipe.title}} <span class="float-right views mt-1"><i class="fas fa-eye ml-4"></i>{{views}}</span></h2>
     </div>
 </div>
 <!----------------------------------------------------------------INGREDIENTS-->
 <div class="row mt-4">
-    <div class="col-auto">
+    <div class="col-12 col-md-auto">
         <div class="ingredients p-2">
             <h3 class="mt-3 section__heading--bordeaux">Ingredients</h3>
             <ul class="list-group">
                 {% for i in range(recipe.ingredients|count) %}
-                <li class="list-group-item ingredients-list-item text-lowercase">{{recipe.ingredients[i].name}}<strong class="ml-1">{{recipe.ingredients[i].qty}} {{recipe.ingredients[i].units}}</strong> </li>
+                <li class="list-group-item ingredients-list-item text-capitalize">{{recipe.ingredients[i].name}}<strong class="ml-1">{{recipe.ingredients[i].qty}} {{recipe.ingredients[i].units}}</strong> </li>
                 {%endfor%}
             </ul>
         </div>
@@ -30,7 +27,7 @@
     <div class="mx-auto mt-3 col-12 text-center">
         <div class="description p-2">
             <h3 class="text-center section__heading--bordeaux mt-3">Description</h3>
-            <p class="text-center text-black-50 "><em>"{{recipe.description}}"</em></p>
+            <p class="text-center "><em>"{{recipe.description}}"</em></p>
             <div class="mb-3">
             <span class="font-weight-bold mr-1">Cuisine:</span> <span class="mr-4">{{recipe.cuisine}}</span> <span class="font-weight-bold mr-1">Diet:</span><span class="mr-4">{{recipe.diet }}</span>
             <span class="font-weight-bold">Allergens:</span> {% for i in range(recipe.allergens|count) %}
@@ -42,15 +39,15 @@
 <!----------------------------------------------------------------------STEPS-->
 <section class="row mt-4">
     <div class="col">
-        <div class="steps-list p-2">
+        <div class="steps-list clearfix p-2">
             <h3 class="text-center mt-3 section__heading--bordeaux">Steps</h3>
             <ol class="list-group ml-3 p-3">
                 {%for step in recipe.steps%}
                 <li class="list-group-item steps-list-item">{{step}}</li>
                 {%endfor%}
             </ol>
+            <p class="mt-4 section__heading--bordeaux float-right mr-4"><span class="fw-600 mr-1">Added by:</span>{{recipe.user}}</p>
         </div>
     </div>
 </section>
-<p class="mt-4 section__heading--bordeaux"><span class="fw-600 mr-1">Added by:</span>{{recipe.user}}</p>
 {%endblock%}

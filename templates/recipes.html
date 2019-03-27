@@ -24,6 +24,7 @@
                     </optgroup>
                 </select>
             </div>
+            <!--------------------------------------------------------Sort By-->
             <div class="form-group col-12 col-md-4 ">
                 <label for="sort">Sort</label>
                 <select class="selectpicker form-control" name="sort" id="sort">
@@ -32,6 +33,7 @@
                     <option {{"selected" if ('sort' in filters) and (filters['sort']=="Most viewed on top")}}>Most viewed on top</option>
                 </select>
             </div>
+            <!-------------------------------------------Allergens to exclude-->
             <div class="form-group col-12 col-md-4 ">
                 <label for="exclude_allergy"><span class="fw-600">EXCLUDE </span> Allergens</label>
                 <select class="selectpicker form-control" data-style="btn-light btn-new" name="exclude_allergy[]" multiple>
