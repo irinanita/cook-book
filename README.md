@@ -54,21 +54,29 @@ add their own recipes.
 * Add possibility to add more than one image or provide images for each step.
 
 ## Technologies Used
-HTML,CSS,JavaScript,Python;
+
+### Front-end
+
+HTML, CSS & JavaScript
+
+[Bootstrap](https://getbootstrap.com/) - For a responsive layout & prebuilt components
+  
+[Bootstrap-select](https://developer.snapappointments.com/bootstrap-select/) - Plugin for more complex select elements 
+
+[Google fonts](https://fonts.google.com/) - For additional fonts with particular styling
+
+[Font Awesome](https://fontawesome.com/free) - For responsive and stylish icons
+
+### Back-end
+
+Python
 
 [Flask](http://flask.pocoo.org/) - A microframework for Python
 
-[MongoDB](https://www.mongodb.com/)- MongoDB is a document noSQL database
+[MongoDB](https://www.mongodb.com/) - MongoDB is a document noSQL database
 
-[Bootstrap](https://getbootstrap.com/)- For a responsive layout & prebuilt components
-  
-[Bootstrap-select](https://developer.snapappointments.com/bootstrap-select/)Plugin for more complex select elements 
+[mLab](https://mlab.com/company/) - cloud database service for MongoDB databases
 
-[Google fonts](https://fonts.google.com/)- For additional fonts with particular styling
-
-[Font Awesome](https://fontawesome.com/free) -For responsive and stylish icons
-
-[mLab](https://mlab.com/company/)- cloud database service for MongoDB databases
 
 
 ## Testing
@@ -87,41 +95,41 @@ and as a result the page was refreshed.
 the other fileds should maintain values from the database.
 
 ### View sort and filter recipes
-* ensure that when search result is zero display an appropriate message 
-* check that the results matched the filters applied
-* checked that multiple selection worked correctly
-* checked that the recipes that contain certain allergens were excluded as expected
-* apply filters that have no result and check that an alert message is displayed
+* Ensure that when search result is zero display an appropriate message 
+* Check that the results matched the filters applied
+* Checked that multiple selection worked correctly
+* Checked that the recipes that contain certain allergens were excluded as expected
+* Apply filters that have no result and check that an alert message is displayed
 
 ### Alert Testing
-* check that after every important interaction feedback was provided via alers and user was redirected to the correct page
+* Check that after every important interaction feedback was provided via alers and user was redirected to the correct page
 
 ### Login/Registration Testing
-* ensure that user couldn't access "My Recipe" section if not logged in
-* check if the user that is login in is registered. That the username matches usernames in database
+* Ensure that user couldn't access "My Recipe" section if not logged in
+* Check if the user that is login in is registered. That the username matches usernames in database
 * If username mathces any username in database check if the password inserted matched the password from the database assocciated to the username
 
 ### View/Editing/Deleting Recipes in My Cooking Book
-* ensure that user can delete/edit only his/her own recipes. For this purposes two different users where created. 
-* when user has zero recipes a message should be displayed
+* Ensure that user can delete/edit only his/her own recipes. For this purposes two different users where created. 
+* When user has zero recipes a message should be displayed
 
 ### Next/Previous Page
 * Test that when there are no recipes left the " next page" button is not displayed
 * Test that when there are no previous recipes to display left the "previous page" button is not displayed
 
 ### Login/Logout
-* check that when a user is not loged in a "Log In" text is displayed
-* check that when a user is loged in a "Log Out" text is displayed
+* Check that when a user is not loged in a "Log In" text is displayed
+* Check that when a user is loged in a "Log Out" text is displayed
 
 ## Version Control
 Git and GitHub were use for version control. Commits where made at each important change, the goal was to keep them concise and relevant.
 
 ## Deployment
-Deployed using Heroku
-* create heroku account
-* login into heroku from console `heroku login`
-* create a new empty App on Heroku as none was created before `heroku create` 
-* rename App `heroku apps:rename cook-book-project`
+This Project was deployed with Heroku in the following way:
+* Create heroku account
+* Login into heroku from console `heroku login`
+* Create a new empty App on Heroku as none was created before `heroku create` 
+* Rename App `heroku apps:rename cook-book-project`
 Run this command from App's Root. The empty Heroku Git repository is automatically set as a remote for your local repository.
 Check `git remote -v`
 * create a Procfile (instruction to Heroku as which file should be used as entry point to our App)
@@ -130,7 +138,12 @@ The Procfile must be in your app’s root directory `echo web python app.py > Pr
 * to deploy `git push heroku master`
 * set the IP and PORT in Heroku account Settings
 
+It is also possible to configure GitHub integration for a Heroku app, Heroku can automatically build and release (if the build is successful) pushes to the specified GitHub repo.
+[Read more here](https://devcenter.heroku.com/articles/github-integration)
+
 ## Credits - Recipes were taken from following websites 
+
+> This Project has solely educational purpose
 
 [1] [All Recipes](http://allrecipes.co.uk)
 [2] [BBC Recipes](https://www.bbcgoodfood.com/recipes)
