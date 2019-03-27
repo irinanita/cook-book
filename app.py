@@ -25,6 +25,18 @@ def autentication():
     session.pop('user', None)
     return render_template('login.html')
 
+@app.route('/setup',methods=['GET'])
+def setup():
+    collist=mongo.db.list_collection_names()
+    if "allergens" in collist:
+        print('Collection is already in the DB')
+    else:
+        allergens_coll=mongo.db["allergens"]
+        allergens_coll.insert_one({"allergen_type": "nuts"})
+        print('no')
+    print(mongo.db.list_collection_names())
+    return "SETUP HAPPENING HERE"
+
 @app.route('/login',methods=['GET','POST'])
 def login():
     users=mongo.db.users

@@ -69,7 +69,7 @@ HTML, CSS & JavaScript
 
 ### Back-end
 
-Python
+[Python](https://www.python.org/) - Python is a programming language that lets you work quickly and integrate systems more effectively
 
 [Flask](http://flask.pocoo.org/) - A microframework for Python
 
@@ -140,6 +140,12 @@ The Procfile must be in your app’s root directory `echo web python app.py > Pr
 
 It is also possible to configure GitHub integration for a Heroku app, Heroku can automatically build and release (if the build is successful) pushes to the specified GitHub repo.
 [Read more here](https://devcenter.heroku.com/articles/github-integration)
+
+## Install Locally
+* CD to the directory of your chice on your local machine and clone the repository `git clone https://github.com/irinanita/cook-book.git`
+* CD into the project folder and install the dipendencies `pip install -r requirements.txt`
+* Set your `environment variables` for `Mongo DB URI`, `Secret Key`, `Port` and `IP`
+
 
 ## Credits - Recipes were taken from following websites 
 
