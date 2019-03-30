@@ -323,6 +323,7 @@ def update_recipe(recipe_id):
     
     #Get steps and allergens from the form
     form_allergens = request.form.getlist("allergens[]")
+    print(form_allergens)
     form_steps = request.form.getlist("steps")
     
     #Delete current name,quantity and units as they are not in the format required for DB
@@ -338,7 +339,7 @@ def update_recipe(recipe_id):
         del recipes_dict["allergens[]"]
         recipes_dict["allergens"]=form_allergens
     else:
-        recipes_dict["allergens"]="None"
+        recipes_dict["allergens"]=["None"]
         
     if request.form.get('submit') == 'submit':
         #If no link is provided a default image is used
@@ -460,7 +461,7 @@ def insert_recipe():
         del recipes_dict["allergens[]"]
         recipes_dict["allergens"]=form_allergens
     else:
-        recipes_dict["allergens"]="None"
+        recipes_dict["allergens"]=["None"]
     
     recipes_dict["ingredients"]=items
     recipes_dict["steps"]=form_steps

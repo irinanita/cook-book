@@ -36,6 +36,10 @@ label{
     color: #262730;
 }
 
+a{
+    color:#26110a;
+}
+
 a:focus { outline: thin dotted; }
 
 

@@ -30,8 +30,10 @@
             <p class="text-center "><em>"{{recipe.description}}"</em></p>
             <div class="mb-3">
             <span class="font-weight-bold mr-1">Cuisine:</span> <span class="mr-4">{{recipe.cuisine}}</span> <span class="font-weight-bold mr-1">Diet:</span><span class="mr-4">{{recipe.diet }}</span>
-            <span class="font-weight-bold">Allergens:</span> {% for i in range(recipe.allergens|count) %}
-            <span class="mr-2">{{recipe.allergens[i]}}</span> {%endfor%}
+            <span class="font-weight-bold">Allergens:</span> 
+            {% for i in range(recipe.allergens|count) %}
+            <span class="mr-2">{{recipe.allergens[i]}}</span> 
+            {%endfor%}
             </div>
         </div>
     </div>
