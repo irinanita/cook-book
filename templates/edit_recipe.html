@@ -13,12 +13,12 @@
 <form action="{{url_for('update_recipe',recipe_id=recipe._id)}}" method="POST">
     <!------------------------------------------------------------------TITLE-->
     <div class="form-row">
-        <div class="form-group col">
+        <div class="form-group col-12 col-md-4">
             <label for="title">Title</label>
             <input type="text" class="form-control" value="{{recipes_dict.title if ('title' in recipes_dict) else (recipe.title)}}" name="title" id="title" placeholder="Recipe Name" required>
         </div>
         <!---------------------------------------------------------------DIET-->
-        <div class="form-group col">
+        <div class="form-group col-12 col-md-4">
             <label for="diet">Diet</label>
             <select class="form-control custom-select" name="diet" id="diet">
                 {% for diet in _diet %}
@@ -31,7 +31,7 @@
             </select>
         </div>
         <!------------------------------------------------------------CUISINE-->
-        <div class="form-group col">
+        <div class="form-group col-12 col-md-4">
             <label for="cuisine">Cuisine</label>
             <select class="form-control custom-select" name="cuisine" id="cuisine">
                 {%for cuisine in _cuisine %}
@@ -68,21 +68,21 @@
     <h3 class="text-center mt-2">Ingredients</h3>
     {% for i in range(ingredient_length) %}
     <div class="row form-group">
-        <div class="col">
+        <div class="col-12 col-sm-8">
             {%if 'ingredients' in recipes_dict %}
             <label for="ingredient-name">Ingredient</label>
             <input type="text" class="form-control" value="{{recipes_dict['ingredients'][i]['name'] if recipes_dict['ingredients'][i]}}" name="ingredient-name[]" placeholder="Ingredient Name"> {%elif 'ingredients' in recipe %}
             <label for="ingredient-name">Ingredient</label>
             <input type="text" class="form-control" value="{{recipe['ingredients'][i]['name'] if recipe['ingredients'][i] }}" name="ingredient-name[]" placeholder="Ingredient Name"> {%endif%}
         </div>
-        <div class="col">
+        <div class="col-6 col-sm-2">
             {%if 'ingredients' in recipes_dict %}
             <label for="ingredient-quantity">Quantity</label>
             <input type="number" step="0.01" min="0" class="form-control" value="{{recipes_dict['ingredients'][i]['qty'] if (recipes_dict['ingredients'][i])}}" name="ingredient-qty[]" placeholder="Qty"> {%elif 'ingredients' in recipe %}
             <label for="ingredient-quantity">Quantity</label>
             <input type="number" step="0.01" class="form-control" value="{{recipe['ingredients'][i]['qty'] if (recipe['ingredients'][i])}}" name="ingredient-qty[]" placeholder="Qty"> {%endif%}
         </div>
-        <div class="col">
+        <div class="col-6 col-sm-2">
             <label for="ingredient-unit">Units</label>
             <select class="form-control custom-select" title="ingredient-unit" name="ingredient-units[]">
                 {% for unit in units %}
@@ -99,7 +99,7 @@
     <div class="form-group clearfix mt-3">
         <div class="float-right">
             <button type="submit" class="btn btn-primary mr-3" name="submit" value="add_ingredient"><i class="fas fa-plus mr-2"></i>Add</button>
-            {% if 'ingredients' in recipes_dict and ingredient_length>1 %}
+            {% if ingredient_length>1 %}
             <button type="submit" class="btn btn-primary btn-outline-dark" name="submit" value="delete_ingredient"><i class="fas fa-minus mr-2"></i>Delete</button>
             {%endif%}
         </div>
@@ -110,7 +110,8 @@
     <div class="form-group">
         {%if 'steps' in recipes_dict%}
         <label for="step">Step {{i+1}}</label>
-        <textarea class="form-control"  name="steps" rows="2">{{recipes_dict['steps'][i] if recipes_dict['steps'][i]}}</textarea> {%elif 'steps' in recipe %}
+        <textarea class="form-control"  name="steps" rows="2">{{recipes_dict['steps'][i] if recipes_dict['steps'][i]}}</textarea> 
+        {%elif 'steps' in recipe %}
         <label for="step">Step {{i+1}}</label>
         <textarea class="form-control"  name="steps" rows="2">{{recipe['steps'][i] if recipe['steps'][i]}}</textarea> {%endif%}
     </div>
@@ -118,7 +119,7 @@
     <div class="form-group mt-3 clearfix">
         <div class="float-right">
             <button type="submit" class="btn btn-primary mr-3" name="submit" value="add_step"><i class="fas fa-plus mr-2"></i>Add</button>
-            {% if 'steps' in recipes_dict and steps_length>1 %}
+            {% if steps_length>1 %}
             <button type="submit" class="btn btn-primary btn-outline-dark" name="submit" value="delete_step"><i class="fas fa-minus mr-2"></i>Delete</button>
             {%endif%}
         </div>

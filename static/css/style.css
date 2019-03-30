@@ -52,6 +52,9 @@ a:hover{
     text-align: center;
 }
 
+.text-muted{
+    color:#444d56 !important;
+}
 /***********BUTTONS*********/
 .btn-sm{
     border-radius: .5rem;

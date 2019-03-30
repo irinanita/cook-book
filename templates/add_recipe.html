@@ -77,7 +77,9 @@
     <div class="form-group clearfix mt-3">
         <div class="float-right">
         <button type="submit" class="btn btn-primary mr-3" name="submit" value="add_ingredient"><i class="fas fa-plus mr-2"></i>Add</button>
+        {% if ingredients>1 %}
         <button type="submit" class="btn btn-primary btn-outline-dark" name="submit" value="delete_ingredient"><i class="fas fa-minus mr-2"></i>Delete</button>
+        {%endif%}
         </div>
     </div>
     <!------------------------------------------------------------------STEPS-->
@@ -91,7 +93,9 @@
     <div class="form-group clearfix mt-3">
         <div class="float-right">
         <button type="submit" class="btn btn-primary mr-3" name="submit" value="add_step"><i class="fas fa-plus mr-2"></i>Add</button>
+        {% if steps>1 %}
         <button type="submit" class="btn btn-primary btn-outline-dark" name="submit" value="delete_step"><i class="fas fa-minus mr-2"></i>Delete</button>
+        {%endif%}
         </div>
     </div>
     <!------------------------------------------------------------------IMAGE-->
