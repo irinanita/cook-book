@@ -52,7 +52,7 @@
                  {% if session['user']%}
                     <span class="mr-1">Hi,</span><span class="section__heading--pink mr-3"><strong>{{session['user']}}</strong></span><a class="fa-sign-out" href="{{url_for('autentication')}}"><i class="fas fa-sign-out-alt"></i>Log Out</a></span>
                  {%else%}
-                    <span><a href="{{url_for('autentication')}}" class="text-success"><i class="fas fa-sign-in-alt mr-2"></i>Log In / Register</a></span>             
+                    <span><a href="{{url_for('autentication')}}" class="fa-sign-in"><i class="fas fa-sign-in-alt mr-2"></i>Log In / Register</a></span>             
                  {%endif%}
             </div>
         </div>
