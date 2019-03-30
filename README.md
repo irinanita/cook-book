@@ -69,7 +69,7 @@ HTML, CSS & JavaScript
 
 ### Back-end
 
-Python
+[Python](https://www.python.org/) - Python is a programming language that lets you work quickly and integrate systems more effectively
 
 [Flask](http://flask.pocoo.org/) - A microframework for Python
 
@@ -81,10 +81,14 @@ Python
 
 ## Testing
 
+### UI/UX Responsiveness Testing 
+* Tested how the website adapts to different type of screen size using Chrome Dev Tools
+* Navigation trough website by using `go back` and `go forward` arrows to see how it reacts and to make sure 
+it doesn't break 
+
 ### Form Testing
 * The same form structure is used for Adding and Editing Recipes. 
- Form validation that checkes whether all the field were field in is performed 
- in the backend
+ Form validation that checks whether input was provided for all the fields is performed in the backend
 * Checks/restrictions like data type or step and minimum value attributes for numeric input run in the frontend.
 * Tested by partially filling in the input field or inserting data that would be invalid. 
   For example in the ingredients section, quantity field shouldn't allow negative values, but should allow values with decimals and hundreths
@@ -92,7 +96,7 @@ Python
 * A considerable amount of testing was dedicated to check if the input was correctly stored if for example a new step or ingredient was added
 and as a result the page was refreshed.
 * In the Edit section tests were made to see if, when editing, the new input was kept for the field that were edited, while all
-the other fileds should maintain values from the database.
+the other fields should maintain values from the database.
 
 ### View sort and filter recipes
 * Ensure that when search result is zero display an appropriate message 
@@ -118,28 +122,41 @@ the other fileds should maintain values from the database.
 * Test that when there are no previous recipes to display left the "previous page" button is not displayed
 
 ### Login/Logout
-* Check that when a user is not loged in a "Log In" text is displayed
-* Check that when a user is loged in a "Log Out" text is displayed
+* Check that when a user is not logged in a "Log In" text is displayed
+* Check that when a user is logged in a "Log Out" text is displayed
 
 ## Version Control
 Git and GitHub were use for version control. Commits where made at each important change, the goal was to keep them concise and relevant.
 
 ## Deployment
 This Project was deployed with Heroku in the following way:
-* Create heroku account
-* Login into heroku from console `heroku login`
+* Create Heroku account
+* Login into Heroku from console `heroku login`
 * Create a new empty App on Heroku as none was created before `heroku create` 
 * Rename App `heroku apps:rename cook-book-project`
 Run this command from App's Root. The empty Heroku Git repository is automatically set as a remote for your local repository.
 Check `git remote -v`
-* create a Procfile (instruction to Heroku as which file should be used as entry point to our App)
-The Procfile must be in your app’s root directory `echo web python app.py > Procfile`
-* create a requirments.txt file `sudo pip3 freeze --local > requirements.txt`
-* to deploy `git push heroku master`
-* set the IP and PORT in Heroku account Settings
+* Create a `Procfile` (instruction to Heroku as which file should be used as entry point to our App)
+The `Procfile` must be in your app’s root directory `echo web python app.py > Procfile`
+* Create a requirements.txt file `sudo pip3 freeze --local > requirements.txt`
+* To deploy `git push heroku master`
+* Set the `IP` and `PORT` in Heroku Account Settings
 
 It is also possible to configure GitHub integration for a Heroku app, Heroku can automatically build and release (if the build is successful) pushes to the specified GitHub repo.
 [Read more here](https://devcenter.heroku.com/articles/github-integration)
+
+## Install Locally
+* CD to the directory of your chice on your local machine and clone the repository `git clone https://github.com/irinanita/cook-book.git`
+* CD into the project folder and install the dipendencies `pip install -r requirements.txt`
+* Set up your MongoDB database, you can leave it as it is by default with no collections.
+You will need your `MongoDB URI`  
+* Set your `environment variables` for `Mongo DB URI`, `Secret Key`, `Port` and `IP` if required
+* `App.py` contains a script that will setup a variety of collections required for this project, such as:
+ `allergens_list`,`diet_list`,`cuisine_list` and `units_list`; their contents are customizable, you can add 
+elements that you would like to see there.  
+* Then open the browser and insert `localhost:PORT/setup`. This will add the collections. 
+> Note that in the beginning the landing page **won't have** recipes in the *Latest Recipes* section. They will 
+appear as soon as you add some recipes. To do so you will need to `Register` 
 
 ## Credits - Recipes were taken from following websites 
 
