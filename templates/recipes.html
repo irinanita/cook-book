@@ -36,7 +36,7 @@
             <!-------------------------------------------Allergens to exclude-->
             <div class="form-group col-12 col-md-4 ">
                 <label for="exclude_allergy"><span class="fw-600">EXCLUDE </span> Allergens</label>
-                <select class="selectpicker form-control" data-style="btn-light btn-new" name="exclude_allergy[]" multiple>
+                <select class="selectpicker form-control" data-style="btn-light btn-new" name="exclude_allergy[] id="exclude_allergy"" multiple>
                     {%for allergen in _allergens%}
                     {%if allergen.allergen_type != "none"%}
                         <option {{"selected" if ('exclude' in filters) and (allergen.allergen_type in filters['exclude'])}}>{{allergen.allergen_type}}</option>
