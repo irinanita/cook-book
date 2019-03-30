@@ -65,12 +65,16 @@ a:hover{
      border-radius: .6rem;
      background-color:#561D25;
      border-color:transparent;
+    -moz-transition: all 0.35s ease-in-out;
+    -webkit-transition: all 0.35s ease-in-out;
+    -o-transition: all 0.35s ease-in-out;
 }
 
 .btn-primary:hover,
 .btn-primary:not(:disabled):not(.disabled):active{
     background-color: #D33F49;
     border-color: transparent;
+
 }
 
 .btn-primary:focus{
@@ -78,7 +82,7 @@ a:hover{
 }
 
 .btn-sm:hover,
-.btn-sm:active{
+.btn-sm:active {
     background-color: #d33f49;
     border-color: #d33f49;
 }
@@ -175,6 +179,17 @@ a:hover{
     color:#fafafa;
 }
 
+.fa-github{
+    font-size: 30px;
+    color:#fafafa;
+    -moz-transition: all 0.35s ease-in-out;
+    -webkit-transition: all 0.35s ease-in-out;
+    -o-transition: all 0.35s ease-in-out;
+}
+
+.fa-github:hover{
+    color:#DF2935;
+}
 /***************LOGIN & NEW USER*****************/
 .form--login{
     width:70%;
