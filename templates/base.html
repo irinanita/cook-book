@@ -26,15 +26,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('recipes')}}">All Recipes</a>
                 </li>
-                {%if 'user' in session%}
+                
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('my_recipes')}}">My Cooking Book</a>
                     
                 </li>
-                {% endif %}
+                
+                {%if 'user' in session%}
                 <li class="nav-item">
                     <a class="nav-link" href="{{url_for('add_recipe')}}">Add Recipe</a>
                 </li>
+                {% endif %}
 
             </ul>
             <form method="GET" action="{{url_for('recipes')}}" class="form-inline my-2 my-lg-0">

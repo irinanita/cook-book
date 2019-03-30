@@ -13,6 +13,44 @@ app.config["MONGO_URI"]=os.getenv("MONGODB_URI")
 
 mongo=PyMongo(app)
 
+'''
+This will be used by those who want to install the project locally
+on their machine. More details in the README file - Local Install Section
+'''
+@app.route('/setup',methods=['GET'])
+def setup():
+    collist=mongo.db.list_collection_names() # get the collection list
+    #Search if there is an Allergens collection in the DB
+    if "allergens" not in collist:
+        allergens_coll=mongo.db["allergens"]
+        allergens_list=["nuts","eggs","soy","dairy","crustacean","gluten","fish"]
+        for allergen in allergens_list:
+            allergens_coll.insert_one({"allergen_type": allergen})
+      
+    #Search if there is a Cuisine collection in the DB
+    if "cuisine" not in collist:
+        cuisine_coll=mongo.db["cuisine"]
+        cuisine_list=["Unknown","Asian","Latin","USA","European"]
+        for cuisine in cuisine_list:
+            cuisine_coll.insert_one({"cuisine_name": cuisine})
+            
+    #Search if there is a Cuisine collection in the DB
+    if "diet" not in collist:
+        diet_coll=mongo.db["diet"]
+        diet_list=["None","Low Carb","Vegan","Vegetarian"]
+        for diet in diet_list:
+            diet_coll.insert_one({"diet_name": diet})
+     
+    #Search if there is a Units collection in the DB
+    if "units" not in collist:
+        units_coll=mongo.db["units"]
+        units_list=["ml","g","tbsp","tsp","pcs","l","kg"]
+        for unit in units_list:
+            units_coll.insert_one({"unit_name": unit}) 
+
+    flash('Everything is set up and ready to go. Have fun!')
+    return redirect(url_for('home'))
+
 @app.route('/')
 def home():
     recipes=mongo.db.recipes.find().sort('_id', -1).limit(4) #display the latest 4 recipes
