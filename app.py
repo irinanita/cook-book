@@ -130,6 +130,7 @@ def recipes(page):
    #Check if user filtered by Browse(either cuisine OR diet)
     if "browse" in request.args:
         filters['browse']=request.args.get("browse")
+        print(request.args.get("browse"))
         tmpParams = [];
         tmpParams.append({"cuisine":request.args.get("browse")})
         tmpParams.append({"diet":request.args.get("browse")})
@@ -207,6 +208,7 @@ def recipes(page):
     cuisine_list=[cuisine for cuisine in _cuisine_list ]
     _allergens_list=mongo.db.allergens.find()
     allergens_list=[allergen for allergen in _allergens_list]
+    
     
     return render_template('recipes.html',page=page,recipes=recipes,recipes_count=recipes_total,
     _diet=diet_list,_cuisine=cuisine_list,_allergens=allergens_list,filters=filters,

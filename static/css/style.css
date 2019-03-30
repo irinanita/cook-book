@@ -57,6 +57,10 @@ a:hover {
     border-radius: .5rem;
 }
 
+.form-control--search{
+    border-radius: 0.25rem;
+}
+
 .text-reset {
     text-align: center;
 }
@@ -180,9 +184,12 @@ a:hover {
     color: #212529;
 }
 
-.selectpicker:hover {
-    background-color: red;
+.btn-light:hover {
+    color: #212529;
+    background-color: #fafafa;
+    border-color: #dae0e5;
 }
+
 
 /*********************NAVBAR & FOOTER******************/
 
