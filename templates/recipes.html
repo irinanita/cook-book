@@ -4,11 +4,11 @@
     <p class="font-weight-bold">Total Recipes: {{recipes_count}}</p>
     <form action="{{url_for('recipes')}}" method="GET">
         <div class="form-row">
-            <div class="form-group col-12 col-md-3">
+            <div class="form-group col-12 col-md-6 col-lg-3">
                 <label for="search">Search by</label>
                 <input class="form-control form-control--search btn-light" id="search" type="search" name="keyword" placeholder="Keyword" value="{{keyword if keyword}}" />
             </div>
-            <div class="form-group col-12 col-md-3">
+            <div class="form-group col-12 col-md-6 col-lg-3">
                 <label for="browse">Select diet <span class="fw-600">OR</span> cuisine</label>
                 <select class="form-control selectpicker" data-style="btn-light" name="browse" id="browse">
                     <option "style=color:#212529" disabled selected>Browse</option>
@@ -28,7 +28,7 @@
                 </select>
             </div>
             <!--------------------------------------------------------Sort By-->
-            <div class="form-group col-12 col-md-3 ">
+            <div class="form-group col-12 col-md-6 col-lg-3 ">
                 <label for="sort">Sort</label>
                 <select class="selectpicker form-control" name="sort" id="sort">
                     <option {{"selected" if ('sort' in filters) and (filters['sort']=="Latest Entry First")}}>Latest Entry First</option>
@@ -37,7 +37,7 @@
                 </select>
             </div>
             <!-------------------------------------------Allergens to exclude-->
-            <div class="form-group col-12 col-md-3 ">
+            <div class="form-group col-12 col-md-6 col-lg-3 ">
                 <label for="exclude_allergy"><span class="fw-600">EXCLUDE </span> Allergens</label>
                 <select class="selectpicker form-control" data-style="btn-light btn-new" name="exclude_allergy[]" id="exclude_allergy" multiple>
                     {%for allergen in _allergens%}
