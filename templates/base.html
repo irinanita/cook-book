@@ -36,7 +36,7 @@
                 {% endif %}
             </ul>
             <!-----------------SEARCH will appear on all pages EXCEPT recipes-->
-            {% if not recipes %}
+            {% if request.path!='/recipes' %}
             <form method="GET" action="{{url_for('recipes')}}" class="form-inline my-2 my-lg-0">
                 <input class="form-control-sm  mr-2" name="keyword" type="search" placeholder="Search" aria-label="Search" value="{{keyword if keyword }}">
                 <button class="btn btn-outline-light btn-sm my-2 my-sm-0" type="submit">Search</button>

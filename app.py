@@ -130,7 +130,6 @@ def recipes(page):
    #Check if user filtered by Browse(either cuisine OR diet)
     if "browse" in request.args:
         filters['browse']=request.args.get("browse")
-        print(request.args.get("browse"))
         tmpParams = [];
         tmpParams.append({"cuisine":request.args.get("browse")})
         tmpParams.append({"diet":request.args.get("browse")})
@@ -516,4 +515,4 @@ def insert_recipe():
     
 if __name__=="__main__":
     app.run(host=os.environ.get('IP'),port=int(os.environ.get('PORT')),
-    debug=False)
+    debug=True)
