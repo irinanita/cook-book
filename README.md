@@ -47,12 +47,21 @@ add their own recipes.
 * check boxes that match allergens that the recipe contains
 * choose a diet or cuisine type
 
-### Other Possible Features 
+### Other Possible Features and Improvements
 
-* Add more recipe categories
 * Add more advanced filtering
 * Add labels in recipe viewing
-* Add possibility to add more than one image or provide images for each step.
+* Add possibility to add more than one image or provide images for each step
+* Create a more user friendly form. At the actual state when some fields are missings
+and user submits the form a message is displayed, it would be nice to also highlight 
+the fields that are missing data; this would be in particularly useful for complex fields
+such as ingredients, where for each ingredient there are 3 fields. As it is now the message
+only alert the user that `ingredients` are missing, but it doesn't say exactly if it is
+`ingrediet name` or `ingredient quantity`. Also when there are many ingredients it may be hard
+to imediately identify which field requires data.
+* In View Recipe page, at the bottom of the page afte the recipe's last block, it may be useful to
+add in a row image of related recipes that user may also like (these can be picked based on similar ingredients
+or diet or cuisine type)
 
 ## Technologies Used
 
